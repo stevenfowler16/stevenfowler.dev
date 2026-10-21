@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "stevenfowler-dev",
+  "account_id": "b8f59368247c32a34df66af51b19a566",
+  "compatibility_date": "2026-10-20",
+  "workers_dev": true,
+  "build": {
+    "command": "npm run build"
+  },
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "single-page-application"
+  }
+  // Once stevenfowler.dev is added as a zone in Cloudflare (migrated from Netlify DNS),
+  // uncomment the routes below and run `npm run deploy`:
+  // "routes": [
+  //   { "pattern": "stevenfowler.dev", "custom_domain": true },
+  //   { "pattern": "www.stevenfowler.dev", "custom_domain": true }
+  // ]
+}
