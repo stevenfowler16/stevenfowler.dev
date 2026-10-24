@@ -11,11 +11,15 @@
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "single-page-application"
-  }
-  // Once stevenfowler.dev is added as a zone in Cloudflare (migrated from Netlify DNS),
-  // uncomment the routes below and run `npm run deploy`:
-  // "routes": [
-  //   { "pattern": "stevenfowler.dev", "custom_domain": true },
-  //   { "pattern": "www.stevenfowler.dev", "custom_domain": true }
-  // ]
+  },
+  "routes": [
+    {
+      "pattern": "stevenfowler.dev/*",
+      "zone_name": "stevenfowler.dev"
+    },
+    {
+      "pattern": "www.stevenfowler.dev/*",
+      "zone_name": "stevenfowler.dev"
+    }
+  ]
 }
