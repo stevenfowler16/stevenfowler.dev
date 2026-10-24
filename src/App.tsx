@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import {
   ArrowUpRight,
+  BarChart3,
+  Briefcase,
   CheckCircle2,
   Code2,
   Compass,
@@ -20,6 +22,7 @@ import {
   Sun,
   Terminal,
   Trophy,
+  Users,
   X,
 } from 'lucide-react';
 
@@ -42,18 +45,18 @@ const PROJECTS: Project[] = [
   {
     id: 'shipwright',
     title: 'Shipwright',
-    subtitle: 'Commercial Azure DevOps Extensions Suite',
+    subtitle: 'Commercial Azure DevOps Engineering Intelligence & Governance Suite',
     category: 'SaaS & DevTools',
     description:
-      'A portfolio of four standalone commercial Azure DevOps web extensions (EnvMatrix, PolicyGuard, EngPulse DORA + SPACE analytics, and MermaidScope) engineered with a 100% client-side, zero-external-data-egress architecture.',
+      'Born directly out of the visibility and governance challenges of leading multi-team engineering organizations: a suite of four commercial Azure DevOps extensions (EngPulse DORA + SPACE analytics, PolicyGuard, EnvMatrix, and MermaidScope) engineered with a 100% client-side, zero-external-data-egress architecture.',
     architecturalThesis:
       'Enterprise security teams routinely block third-party SaaS tools that exfiltrate source code or pipeline metadata. Running 100% client-side inside the Azure DevOps host frame with an offline Web Crypto BYOL licensing engine eliminates procurement friction and reduces cloud hosting overhead to $0/month.',
     highlights: [
-      'EnvMatrix: Multi-environment Variable Group diff matrix, unmasked secret detector, and pipeline blast-radius scanner',
+      'EngPulse: Executive & team-level DORA metrics scorecard, PR cycle-time stage forensics, and reviewer load balancing',
       'PolicyGuard: Cross-repo branch policy compliance matrix, 1-click drift remediation, and SOC2/ISO27001 evidence exporter',
-      'EngPulse: Zero-egress DORA metrics scorecard, PR cycle-time stage forensics, and reviewer load balancer',
+      'EnvMatrix: Multi-environment Variable Group diff matrix, unmasked secret detector, and pipeline blast-radius scanner',
     ],
-    tags: ['TypeScript', 'React', 'Azure DevOps SDK', 'Web Crypto BYOL', 'Zero-Egress Architecture'],
+    tags: ['DORA & SPACE Metrics', 'Engineering Governance', 'TypeScript', 'React', 'Azure DevOps SDK', 'Web Crypto'],
     liveUrl: 'https://shipwrighthq.com',
     accentGradient: 'from-[#c561f6] via-[#7611a6] to-[#4c11c6]',
     badgeText: 'shipwrighthq.com',
@@ -140,11 +143,11 @@ const PROJECTS: Project[] = [
     description:
       'Reference implementation demonstrating pragmatic code-sharing and incremental migration boundaries between legacy .NET Framework applications and modern .NET workloads using .NET Standard contracts.',
     architecturalThesis:
-      'Enterprise .NET migrations rarely happen in a single big-bang rewrite. Isolating core domain logic in .NET Standard allows legacy .NET Framework apps and modern .NET web services to evolve side-by-side with minimal coupling.',
+      'Enterprise .NET migrations rarely happen in a single big-bang rewrite. Isolating core domain logic in .NET Standard allows legacy .NET Framework apps and modern .NET web services to evolve side-by-side with minimal organizational risk.',
     highlights: [
       'Demonstrates shared domain libraries across .NET Framework console workloads and modern .NET web applications',
       'Evaluates architectural trade-offs between direct project references and internal NuGet package boundaries',
-      'Grounded in real-world enterprise modernization and full-stack .NET architecture',
+      'Grounded in real-world enterprise modernization and multi-team .NET architecture',
     ],
     tags: ['C#', '.NET', '.NET Standard', 'Legacy Modernization', 'Clean Architecture'],
     repoUrl: 'https://github.com/stevenfowler16/NETArchitectureExamples',
@@ -205,7 +208,12 @@ export default function App() {
             <span className="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-[#c561f6] via-[#7611a6] to-[#1c0056] text-white shadow-md shadow-[#7611a6]/25 group-hover:scale-105 transition-transform">
               <Terminal className="w-5 h-5" />
             </span>
-            <span>Steven Fowler</span>
+            <div className="flex flex-col">
+              <span className="leading-none">Steven Fowler</span>
+              <span className="text-xs font-normal text-slate-500 dark:text-slate-400 mt-0.5">
+                Director of Engineering
+              </span>
+            </div>
           </a>
 
           {/* Desktop Nav Pill */}
@@ -220,19 +228,19 @@ export default function App() {
               href="#pillars"
               className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
             >
-              Core Pillars
-            </a>
-            <a
-              href="#projects"
-              className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
-            >
-              Selected Work
+              Focus Areas
             </a>
             <a
               href="#leadership"
               className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
             >
-              Philosophy
+              Leadership Philosophy
+            </a>
+            <a
+              href="#projects"
+              className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
+            >
+              Systems &amp; Products
             </a>
             <a
               href="#contact"
@@ -315,9 +323,9 @@ export default function App() {
             <div className="flex flex-col space-y-2">
               {[
                 { label: 'Overview', href: '#about' },
-                { label: 'Core Pillars', href: '#pillars' },
-                { label: 'Selected Work', href: '#projects' },
-                { label: 'Engineering Philosophy', href: '#leadership' },
+                { label: 'Focus Areas', href: '#pillars' },
+                { label: 'Leadership Philosophy', href: '#leadership' },
+                { label: 'Systems & Products', href: '#projects' },
                 { label: 'Contact', href: '#contact' },
               ].map((item) => (
                 <a
@@ -371,35 +379,35 @@ export default function App() {
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-600 dark:text-[#a3acc8] max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              I am a Software Developer and Engineering Leader based in Charlottesville,
-              Virginia — architecting resilient full-stack systems, leading high-ownership
-              engineering teams, and shipping commercial developer tools and edge-native
-              products.
+              I am a <strong className="font-semibold text-[#090b11] dark:text-white">Director of Engineering</strong> based
+              in Charlottesville, Virginia — scaling high-trust engineering organizations,
+              aligning technical architecture with business strategy, and staying hands-on
+              building commercial developer tools and edge-native platforms.
             </p>
 
             {/* Role Pills */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-2.5 pt-1">
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-[#7611a6] text-white shadow-sm shadow-[#7611a6]/30">
-                <Code2 className="w-4 h-4" /> Developer
+                <Briefcase className="w-4 h-4" /> Director of Engineering
               </span>
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-[#141925] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800">
-                <Layers className="w-4 h-4 text-[#c561f6]" /> Full Stack (.NET, TypeScript, Python)
+                <Users className="w-4 h-4 text-[#c561f6]" /> Org Scale &amp; Culture
               </span>
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-[#141925] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800">
-                <Trophy className="w-4 h-4 text-[#c561f6]" /> Team Leadership
+                <Compass className="w-4 h-4 text-[#c561f6]" /> Technical Strategy
               </span>
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-[#141925] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800">
-                <Compass className="w-4 h-4 text-[#c561f6]" /> Product &amp; Systems Strategy
+                <Code2 className="w-4 h-4 text-[#c561f6]" /> Hands-On Builder (.NET &amp; TypeScript)
               </span>
             </div>
 
             {/* Hero Actions */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-3">
               <a
-                href="#projects"
+                href="#leadership"
                 className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full font-medium text-white bg-gradient-to-r from-[#c561f6] via-[#7611a6] to-[#4c11c6] hover:opacity-95 shadow-lg shadow-[#7611a6]/25 transition-all"
               >
-                <span>Explore Selected Work</span>
+                <span>Leadership &amp; Architecture</span>
                 <ArrowUpRight className="w-4 h-4" />
               </a>
               <a
@@ -407,7 +415,7 @@ export default function App() {
                 className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full font-medium text-slate-800 dark:text-white bg-white/90 dark:bg-[#141925]/90 hover:bg-slate-100 dark:hover:bg-[#1f2637] border border-slate-200 dark:border-slate-800 transition-colors"
               >
                 <Mail className="w-4 h-4 text-[#c561f6]" />
-                <span>Send Me a Message</span>
+                <span>Get in Touch</span>
               </a>
             </div>
           </div>
@@ -430,7 +438,7 @@ export default function App() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#090b11]/65 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between px-4 py-2.5 rounded-2xl bg-[#090b11]/75 backdrop-blur-md border border-white/15 text-white text-xs sm:text-sm">
                   <span className="font-medium">Steven Fowler</span>
-                  <span className="text-[#c561f6] font-medium">Engineering &amp; Architecture</span>
+                  <span className="text-[#c561f6] font-medium">Director of Engineering</span>
                 </div>
               </div>
             </div>
@@ -444,46 +452,125 @@ export default function App() {
               {/* Pillar 1 */}
               <div className="space-y-3 pt-2 md:pt-0">
                 <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-br from-[#c561f6]/20 to-[#7611a6]/20 border border-[#c561f6]/30 text-[#7611a6] dark:text-[#c561f6]">
-                  <Terminal className="w-6 h-6" />
+                  <Trophy className="w-6 h-6" />
                 </div>
                 <h2 className="font-display font-semibold text-2xl text-[#090b11] dark:text-white">
-                  Full Stack
+                  Organizational Leadership
                 </h2>
                 <p className="text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                  Primarily working in .NET, TypeScript, and Python — always choosing the
-                  right architecture for the problem, from enterprise backend services to
-                  zero-egress extensions and edge-deployed web platforms.
+                  Building high-trust engineering cultures where managers and individual
+                  contributors have clear ownership, low cognitive load, and strong
+                  operational guardrails to do their best work.
                 </p>
               </div>
 
               {/* Pillar 2 */}
               <div className="space-y-3 pt-8 md:pt-0 md:pl-10">
                 <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-br from-[#c561f6]/20 to-[#7611a6]/20 border border-[#c561f6]/30 text-[#7611a6] dark:text-[#c561f6]">
-                  <Trophy className="w-6 h-6" />
+                  <Compass className="w-6 h-6" />
                 </div>
                 <h2 className="font-display font-semibold text-2xl text-[#090b11] dark:text-white">
-                  Team Leadership
+                  Executive &amp; Product Strategy
                 </h2>
                 <p className="text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                  Focusing on creating a high-trust engineering culture where developers
-                  have clear architectural guardrails, low cognitive load, and strong
-                  ownership.
+                  Partnering across executive and product leadership to translate business
+                  goals into durable multi-quarter roadmaps, predictable delivery, and
+                  healthy cloud unit economics.
                 </p>
               </div>
 
               {/* Pillar 3 */}
               <div className="space-y-3 pt-8 md:pt-0 md:pl-10">
                 <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-br from-[#c561f6]/20 to-[#7611a6]/20 border border-[#c561f6]/30 text-[#7611a6] dark:text-[#c561f6]">
-                  <Compass className="w-6 h-6" />
+                  <Terminal className="w-6 h-6" />
                 </div>
                 <h2 className="font-display font-semibold text-2xl text-[#090b11] dark:text-white">
-                  Strategy-Minded
+                  Hands-On Architecture
                 </h2>
                 <p className="text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                  Partnering with stakeholders to align system design, security compliance,
-                  and unit economics with measurable business outcomes.
+                  Deeply rooted in .NET, TypeScript, and modern cloud/edge stacks — staying
+                  close enough to the code to set pragmatic architectural standards and
+                  actively ship software.
                 </p>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Engineering Leadership & Operating Philosophy Section */}
+        <section id="leadership" className="space-y-8">
+          <div className="space-y-3 max-w-3xl">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+              <ShieldCheck className="w-4 h-4" />
+              <span>How I Scale Teams &amp; Systems</span>
+            </div>
+            <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#090b11] dark:text-white">
+              Engineering Leadership Philosophy
+            </h2>
+            <p className="text-slate-600 dark:text-[#a3acc8] text-base sm:text-lg">
+              As a Director of Engineering, my focus is multiplying the effectiveness of
+              every team I lead—combining healthy delivery diagnostics, automated
+              governance, and pragmatic system design.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
+                <CheckCircle2 className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
+                Automated Guardrails Over Manual Gatekeeping
+              </h3>
+              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
+                High-performing organizations don’t scale through heavyweight change
+                advisory boards. By automating branch policy compliance, environment drift
+                detection, and blast-radius analysis in CI/CD, teams move fast with built-in
+                safety and auditability.
+              </p>
+            </div>
+
+            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
+                <BarChart3 className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
+                Diagnostic Engineering Health (DORA + SPACE)
+              </h3>
+              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
+                Engineering metrics should illuminate systemic friction—such as PR pickup
+                delays, review queue bottlenecks, or sprint scope spillover—to help leaders
+                remove obstacles and protect developer flow, never to gamify individual output.
+              </p>
+            </div>
+
+            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
+                <Layers className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
+                Pragmatic, Constraint-Driven Architecture
+              </h3>
+              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
+                Whether modernizing legacy enterprise .NET estates via incremental
+                strangler-fig boundaries or designing zero-egress edge applications,
+                architecture must serve maintainability, security compliance, and business
+                ROI.
+              </p>
+            </div>
+
+            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
+                <Cpu className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
+                Leaders Who Still Build
+              </h3>
+              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
+                Staying hands-on with modern cloud runtimes, AI-assisted workflows, and
+                developer tooling sharpens architectural judgment and builds authentic
+                credibility with the engineers and managers I lead.
+              </p>
             </div>
           </div>
         </section>
@@ -494,14 +581,14 @@ export default function App() {
             <div className="space-y-3 max-w-2xl">
               <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
                 <Sparkles className="w-4 h-4" />
-                <span>Featured Production Systems &amp; Architectures</span>
+                <span>Hands-On Engineering &amp; Product Lab</span>
               </div>
               <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#090b11] dark:text-white">
-                Selected Work
+                Systems &amp; Products I’ve Built
               </h2>
               <p className="text-slate-600 dark:text-[#a3acc8] text-base sm:text-lg">
-                Commercial developer tools, full-stack edge platforms, interactive daily web
-                games, and enterprise .NET modernization patterns.
+                Alongside leading engineering teams, I actively design and ship commercial
+                DevOps governance tools, edge platforms, and interactive web applications.
               </p>
             </div>
 
@@ -635,77 +722,16 @@ export default function App() {
           </div>
         </section>
 
-        {/* Engineering Leadership & Operating Philosophy Section */}
-        <section id="leadership" className="space-y-8">
-          <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
-              <ShieldCheck className="w-4 h-4" />
-              <span>How I Lead &amp; Architect</span>
-            </div>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#090b11] dark:text-white">
-              Engineering Leadership Philosophy
-            </h2>
-            <p className="text-slate-600 dark:text-[#a3acc8] text-base sm:text-lg">
-              Great software organizations scale through clarity, automated guardrails, and
-              pragmatic technical judgment rather than heavy bureaucracy.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
-                <CheckCircle2 className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
-                Guardrails Over Gatekeeping
-              </h3>
-              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                Replace manual review bottlenecks with automated branch policy compliance,
-                environment drift detection, and deterministic CI/CD checks so teams deploy
-                safely at high velocity.
-              </p>
-            </div>
-
-            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
-                <Cpu className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
-                Diagnostic Delivery Metrics
-              </h3>
-              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                Use DORA and SPACE frameworks to diagnose systemic friction—like PR review
-                queue imbalances or scope spillover—empowering teams rather than policing
-                individuals.
-              </p>
-            </div>
-
-            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
-                <Layers className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
-                Constraint-Driven Architecture
-              </h3>
-              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                Design directly around real constraints—whether that means strangler-fig
-                modernization in enterprise .NET, zero-egress client extensions, or
-                low-latency edge workers.
-              </p>
-            </div>
-          </div>
-        </section>
-
         {/* Contact CTA Banner */}
         <section id="contact">
           <aside className="relative overflow-hidden rounded-3xl p-8 sm:p-12 bg-gradient-to-br from-white via-purple-50/50 to-indigo-50/40 dark:from-[#141925] dark:via-[#18152c] dark:to-[#0f1320] border border-slate-200/90 dark:border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
             <div className="space-y-2 max-w-xl">
               <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#090b11] dark:text-white">
-                Interested in working together?
+                Interested in connecting?
               </h2>
               <p className="text-slate-600 dark:text-[#a3acc8] text-base sm:text-lg">
-                Whether you want to discuss engineering leadership, full-stack architecture,
-                or a new product idea, I’d love to connect.
+                Whether you want to discuss engineering leadership, organizational scale,
+                enterprise architecture, or a product collaboration, I’d love to chat.
               </p>
             </div>
 
@@ -728,7 +754,7 @@ export default function App() {
               &copy; {new Date().getFullYear()} Steven Fowler
             </span>
             <span className="hidden sm:inline text-slate-300 dark:text-slate-700">&bull;</span>
-            <span>Charlottesville, Virginia</span>
+            <span>Director of Engineering &bull; Charlottesville, Virginia</span>
           </div>
 
           <div className="flex items-center gap-6">
