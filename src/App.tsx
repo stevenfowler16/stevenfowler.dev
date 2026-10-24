@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
 import {
   ArrowUpRight,
+  CheckCircle2,
   Code2,
   Compass,
+  Cpu,
   ExternalLink,
   FolderGit2,
   Github,
   Layers,
+  Lock,
   Mail,
   MapPin,
   Menu,
   Moon,
   Send,
+  ShieldCheck,
   Sparkles,
   Sun,
   Terminal,
@@ -23,8 +27,9 @@ interface Project {
   id: string;
   title: string;
   subtitle: string;
-  category: 'SaaS & DevTools' | 'Interactive & Web Apps' | 'Architecture & .NET';
+  category: 'SaaS & DevTools' | 'Edge Platforms & Data' | 'Interactive & Web Apps' | 'Architecture & .NET';
   description: string;
+  architecturalThesis: string;
   highlights: string[];
   tags: string[];
   liveUrl?: string;
@@ -40,16 +45,37 @@ const PROJECTS: Project[] = [
     subtitle: 'Commercial Azure DevOps Extensions Suite',
     category: 'SaaS & DevTools',
     description:
-      'A portfolio of four standalone commercial Azure DevOps web extensions (EnvMatrix, PolicyGuard, EngPulse DORA + SPACE analytics, and MermaidScope) engineered with a 100% client-side, zero-external-data-egress architecture and an offline cryptographic licensing engine.',
+      'A portfolio of four standalone commercial Azure DevOps web extensions (EnvMatrix, PolicyGuard, EngPulse DORA + SPACE analytics, and MermaidScope) engineered with a 100% client-side, zero-external-data-egress architecture.',
+    architecturalThesis:
+      'Enterprise security teams routinely block third-party SaaS tools that exfiltrate source code or pipeline metadata. Running 100% client-side inside the Azure DevOps host frame with an offline Web Crypto BYOL licensing engine eliminates procurement friction and reduces cloud hosting overhead to $0/month.',
     highlights: [
-      'Zero external data egress — runs entirely inside the customer Azure DevOps iframe context',
-      'Cross-environment Variable Group diffing, branch policy drift remediation, and DORA + SPACE engineering metrics',
-      'Two-tier offline BYOL cryptographic licensing engine with zero recurring cloud hosting overhead',
+      'EnvMatrix: Multi-environment Variable Group diff matrix, unmasked secret detector, and pipeline blast-radius scanner',
+      'PolicyGuard: Cross-repo branch policy compliance matrix, 1-click drift remediation, and SOC2/ISO27001 evidence exporter',
+      'EngPulse: Zero-egress DORA metrics scorecard, PR cycle-time stage forensics, and reviewer load balancer',
     ],
-    tags: ['TypeScript', 'React', 'Azure DevOps SDK', 'Web Crypto', 'Cloudflare'],
+    tags: ['TypeScript', 'React', 'Azure DevOps SDK', 'Web Crypto BYOL', 'Zero-Egress Architecture'],
     liveUrl: 'https://shipwrighthq.com',
     accentGradient: 'from-[#c561f6] via-[#7611a6] to-[#4c11c6]',
     badgeText: 'shipwrighthq.com',
+  },
+  {
+    id: 'rafters',
+    title: 'Rafters',
+    subtitle: 'Fantasy Sports Intelligence Hub & Multi-Persona Discord Engine',
+    category: 'Edge Platforms & Data',
+    description:
+      'A full-stack sports analytics platform ("Where Dynasties Hang Forever") that reconstructs 15+ years of ESPN league history, calculates expected win variance and point spreads, and powers an automated Discord intelligence bot with 5 switchable analytical personas.',
+    architecturalThesis:
+      'Built on Cloudflare Python Workers at the edge paired with Supabase and Stripe, combining historical multi-decade data normalization with real-time Sunday/Monday game-day polling for lead changes, clutch nail-biters, and bench efficiency.',
+    highlights: [
+      'Reconstructs 15+ years of longitudinal league history, career trophy rooms, and head-to-head rivalries',
+      'Quantitative analytics engine: All-Play Expected Win % ("Luck Index"), Power Rankings 2.0, and implied point spreads',
+      '5 switchable Discord broadcast personas (ESPN Broadcast Analyst, Stathead, Classic Commissioner, Savage Roaster, Spreads)',
+    ],
+    tags: ['Python', 'Cloudflare Python Workers', 'Supabase', 'Discord API', 'Stripe', 'Statistical Modeling'],
+    liveUrl: 'https://raftersfantasy.com',
+    accentGradient: 'from-[#10b981] via-[#059669] to-[#7611a6]',
+    badgeText: 'raftersfantasy.com',
   },
   {
     id: 'callsheet',
@@ -58,55 +84,79 @@ const PROJECTS: Project[] = [
     category: 'Interactive & Web Apps',
     description:
       'A daily cinephile deduction game featuring a 7-day rotating puzzle mechanic (Web Audio synth motifs, box office curves, frame crops, and script redactions), workplace film leagues, 27 collectible movie prop badges, and studio supervisor Otto the Cat.',
+    architecturalThesis:
+      'Designed for zero-friction daily play with guest-to-authenticated UUID state migration, strict Supabase Row-Level Security (RLS) inside a dedicated schema, and procedural Web Audio synthesizer soundtracks.',
     highlights: [
-      '7-day themed puzzle rotation with procedural Web Audio synthesizer soundtracks and waveform visualizers',
-      'Private workplace & friend leagues with live daily leaderboards and season standings',
-      'Deployed at the edge on Cloudflare Workers with Supabase Postgres & Row-Level Security',
+      '7-day themed puzzle rotation with procedural Web Audio synth motifs and animated waveform visualizers',
+      'Collaborative workplace & friend film leagues with live daily leaderboards and season standings',
+      'Edge-deployed on Cloudflare Workers with isolated Supabase Postgres schema and automated archival play',
     ],
-    tags: ['React 18', 'TypeScript', 'Tailwind CSS', 'Supabase', 'Web Audio API', 'Cloudflare'],
+    tags: ['React 18', 'TypeScript', 'Tailwind CSS', 'Supabase RLS', 'Web Audio API', 'Cloudflare'],
     liveUrl: 'https://callsheet.quest',
     accentGradient: 'from-[#f59e0b] via-[#c561f6] to-[#7611a6]',
     badgeText: 'callsheet.quest',
   },
   {
+    id: 'obsidian-gateway',
+    title: 'Obsidian Multi-Site & Email Gateway',
+    subtitle: 'Multi-Tenant Knowledge Portal & Edge Email-to-Markdown Pipeline',
+    category: 'Edge Platforms & Data',
+    description:
+      'A live-synced multi-site web portal and authentication gateway powered directly by an Obsidian Markdown vault, featuring granular per-user RBAC and an automated Cloudflare Email Worker that ingests incoming emails and URLs into structured Markdown notes.',
+    architecturalThesis:
+      'Bridges local-first Markdown authoring with edge cloud publishing using Next.js (OpenNext on Cloudflare Workers), scrypt-hashed passcodes, and an inbound email worker that parses, scrapes, and standardizes content automatically.',
+    highlights: [
+      'Turns any Obsidian vault folder into an isolated web portal with per-user scrypt passcode RBAC and admin curation',
+      'Inbound Cloudflare Email Routing worker with URL scraping and structured Markdown frontmatter generation',
+      'Interactive recipe scaling (0.5×–3×), step-by-step cook mode, built-in timers, and Supabase guestbook persistence',
+    ],
+    tags: ['Next.js', 'OpenNext', 'Cloudflare Workers', 'Email Routing Worker', 'Supabase', 'TypeScript'],
+    accentGradient: 'from-[#3b82f6] via-[#6366f1] to-[#c561f6]',
+    badgeText: 'Edge Architecture',
+  },
+  {
     id: 'taxa',
     title: 'TAXA',
-    subtitle: 'Daily Nature & Biology Connections',
+    subtitle: 'Daily Nature & Biology Connections Game & PWA',
     category: 'Interactive & Web Apps',
     description:
       'A mobile-first daily wildlife and ecosystem deduction game with dual-track difficulty (Fledgling & Naturalist modes), procedural Web Audio biome soundscapes, tap-to-speak pronunciation, and collectible 16-bit pixel-art specimen cards.',
+    architecturalThesis:
+      'Engineered with zero external UI framework dependencies—using a custom 24×24 16-bit pixel-art sprite renderer and procedural Web Audio synthesizer to deliver an instant-loading, offline-capable Progressive Web App.',
     highlights: [
       'Dual-track difficulty modes tailored for both young learners (Fledgling) and biology enthusiasts (Naturalist)',
-      'Custom 24×24 16-bit pixel-art specimen card engine and procedural avian & biome Web Audio synthesizer',
-      'Offline-ready Progressive Web App (PWA) with zero-friction instant play and shareable expedition grids',
+      'Custom 24×24 16-bit pixel-art specimen card engine and procedural avian & biome Web Audio soundscapes',
+      'Offline-ready PWA with zero-login instant play, field journal honors shelf, and family discussion prompts',
     ],
     tags: ['JavaScript', 'Web Audio API', 'PWA', '16-Bit Pixel Engine', 'Supabase'],
-    repoUrl: 'https://github.com/stevenfowler16',
-    accentGradient: 'from-[#10b981] via-[#059669] to-[#4c11c6]',
+    accentGradient: 'from-[#14b8a6] via-[#10b981] to-[#4c11c6]',
     badgeText: 'Daily Game & PWA',
   },
   {
     id: 'net-architecture',
-    title: '.NET Architecture Examples',
-    subtitle: 'Enterprise .NET Reference Patterns & Clean Architecture',
+    title: 'Enterprise .NET Modernization Patterns',
+    subtitle: 'Legacy .NET Framework to Modern .NET Multi-Targeting Reference',
     category: 'Architecture & .NET',
     description:
-      'Open-source reference implementations exploring clean architecture, modular boundaries, domain-driven design, and maintainable enterprise backend patterns in modern .NET.',
+      'Reference implementation demonstrating pragmatic code-sharing and incremental migration boundaries between legacy .NET Framework applications and modern .NET workloads using .NET Standard contracts.',
+    architecturalThesis:
+      'Enterprise .NET migrations rarely happen in a single big-bang rewrite. Isolating core domain logic in .NET Standard allows legacy .NET Framework apps and modern .NET web services to evolve side-by-side with minimal coupling.',
     highlights: [
-      'Clear separation of domain, application, infrastructure, and presentation layers',
-      'Pragmatic patterns for testable services, dependency inversion, and long-term maintainability',
-      'Designed as a hands-on architectural reference for full-stack .NET engineering teams',
+      'Demonstrates shared domain libraries across .NET Framework console workloads and modern .NET web applications',
+      'Evaluates architectural trade-offs between direct project references and internal NuGet package boundaries',
+      'Grounded in real-world enterprise modernization and full-stack .NET architecture',
     ],
-    tags: ['C#', '.NET', 'Clean Architecture', 'System Design', 'Enterprise Patterns'],
+    tags: ['C#', '.NET', '.NET Standard', 'Legacy Modernization', 'Clean Architecture'],
     repoUrl: 'https://github.com/stevenfowler16/NETArchitectureExamples',
     accentGradient: 'from-[#6366f1] via-[#8b5cf6] to-[#c561f6]',
-    badgeText: 'Open Source',
+    badgeText: 'Open Source Reference',
   },
 ];
 
 const CATEGORIES = [
   'All',
   'SaaS & DevTools',
+  'Edge Platforms & Data',
   'Interactive & Web Apps',
   'Architecture & .NET',
 ] as const;
@@ -177,6 +227,12 @@ export default function App() {
               className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
             >
               Selected Work
+            </a>
+            <a
+              href="#leadership"
+              className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
+            >
+              Philosophy
             </a>
             <a
               href="#contact"
@@ -261,6 +317,7 @@ export default function App() {
                 { label: 'Overview', href: '#about' },
                 { label: 'Core Pillars', href: '#pillars' },
                 { label: 'Selected Work', href: '#projects' },
+                { label: 'Engineering Philosophy', href: '#leadership' },
                 { label: 'Contact', href: '#contact' },
               ].map((item) => (
                 <a
@@ -315,8 +372,9 @@ export default function App() {
 
             <p className="text-lg sm:text-xl text-slate-600 dark:text-[#a3acc8] max-w-2xl mx-auto lg:mx-0 leading-relaxed">
               I am a Software Developer and Engineering Leader based in Charlottesville,
-              Virginia — building resilient full-stack systems, high-trust engineering
-              cultures, and thoughtful digital products.
+              Virginia — architecting resilient full-stack systems, leading high-ownership
+              engineering teams, and shipping commercial developer tools and edge-native
+              products.
             </p>
 
             {/* Role Pills */}
@@ -325,13 +383,13 @@ export default function App() {
                 <Code2 className="w-4 h-4" /> Developer
               </span>
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-[#141925] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800">
-                <Layers className="w-4 h-4 text-[#c561f6]" /> Full Stack (.NET &amp; TypeScript)
+                <Layers className="w-4 h-4 text-[#c561f6]" /> Full Stack (.NET, TypeScript, Python)
               </span>
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-[#141925] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800">
                 <Trophy className="w-4 h-4 text-[#c561f6]" /> Team Leadership
               </span>
               <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-[#141925] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800">
-                <Compass className="w-4 h-4 text-[#c561f6]" /> Product Strategy
+                <Compass className="w-4 h-4 text-[#c561f6]" /> Product &amp; Systems Strategy
               </span>
             </div>
 
@@ -372,7 +430,7 @@ export default function App() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#090b11]/65 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between px-4 py-2.5 rounded-2xl bg-[#090b11]/75 backdrop-blur-md border border-white/15 text-white text-xs sm:text-sm">
                   <span className="font-medium">Steven Fowler</span>
-                  <span className="text-[#c561f6] font-medium">Software Engineering &amp; Architecture</span>
+                  <span className="text-[#c561f6] font-medium">Engineering &amp; Architecture</span>
                 </div>
               </div>
             </div>
@@ -392,9 +450,9 @@ export default function App() {
                   Full Stack
                 </h2>
                 <p className="text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                  Primarily working in .NET and TypeScript, while always staying open to
-                  the right tool for the job — from enterprise backend architectures to
-                  edge-deployed web applications.
+                  Primarily working in .NET, TypeScript, and Python — always choosing the
+                  right architecture for the problem, from enterprise backend services to
+                  zero-egress extensions and edge-deployed web platforms.
                 </p>
               </div>
 
@@ -407,8 +465,9 @@ export default function App() {
                   Team Leadership
                 </h2>
                 <p className="text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                  Focusing on creating a great culture where engineers have clarity,
-                  ownership, and mentorship to ship high-leverage software with confidence.
+                  Focusing on creating a high-trust engineering culture where developers
+                  have clear architectural guardrails, low cognitive load, and strong
+                  ownership.
                 </p>
               </div>
 
@@ -421,8 +480,8 @@ export default function App() {
                   Strategy-Minded
                 </h2>
                 <p className="text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                  Working closely with stakeholders to bridge technical architecture and
-                  product goals — delivering measurable, sustainable value.
+                  Partnering with stakeholders to align system design, security compliance,
+                  and unit economics with measurable business outcomes.
                 </p>
               </div>
             </div>
@@ -431,18 +490,18 @@ export default function App() {
 
         {/* Selected Projects Section */}
         <section id="projects" className="space-y-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="space-y-3 max-w-2xl">
               <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
                 <Sparkles className="w-4 h-4" />
-                <span>Featured Engineering &amp; Product Work</span>
+                <span>Featured Production Systems &amp; Architectures</span>
               </div>
               <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#090b11] dark:text-white">
                 Selected Work
               </h2>
               <p className="text-slate-600 dark:text-[#a3acc8] text-base sm:text-lg">
-                A look at recent commercial developer tools, daily interactive web games,
-                and architectural reference projects I’ve designed and built.
+                Commercial developer tools, full-stack edge platforms, interactive daily web
+                games, and enterprise .NET modernization patterns.
               </p>
             </div>
 
@@ -474,45 +533,57 @@ export default function App() {
                 key={project.id}
                 className="group relative flex flex-col justify-between rounded-3xl p-7 sm:p-8 bg-white/90 dark:bg-[#141925]/80 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800/90 hover:border-[#c561f6]/60 dark:hover:border-[#c561f6]/50 shadow-lg hover:shadow-2xl transition-all duration-300"
               >
-                {/* Top Gradient Accent Bar */}
-                <div
-                  className={`h-1.5 w-20 rounded-full bg-gradient-to-r ${project.accentGradient} mb-6`}
-                />
+                <div>
+                  {/* Top Gradient Accent Bar */}
+                  <div
+                    className={`h-1.5 w-20 rounded-full bg-gradient-to-r ${project.accentGradient} mb-6`}
+                  />
 
-                <div className="space-y-4 flex-1">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <span className="text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
-                        {project.category}
+                  <div className="space-y-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <span className="text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                          {project.category}
+                        </span>
+                        <h3 className="font-display font-bold text-2xl text-[#090b11] dark:text-white mt-1">
+                          {project.title}
+                        </h3>
+                        <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                          {project.subtitle}
+                        </p>
+                      </div>
+                      <span className="shrink-0 px-3 py-1 rounded-full text-xs font-medium bg-purple-500/10 dark:bg-purple-500/15 text-[#7611a6] dark:text-[#c561f6] border border-purple-500/20">
+                        {project.badgeText}
                       </span>
-                      <h3 className="font-display font-bold text-2xl text-[#090b11] dark:text-white mt-1">
-                        {project.title}
-                      </h3>
-                      <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                        {project.subtitle}
+                    </div>
+
+                    <p className="text-slate-600 dark:text-[#a3acc8] text-sm sm:text-base leading-relaxed">
+                      {project.description}
+                    </p>
+
+                    {/* Architectural Decision Callout */}
+                    <div className="rounded-2xl p-4 bg-slate-100/80 dark:bg-[#090b11]/60 border border-slate-200/80 dark:border-slate-800/90 space-y-1">
+                      <div className="text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                        Architectural Thesis
+                      </div>
+                      <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        {project.architecturalThesis}
                       </p>
                     </div>
-                    <span className="shrink-0 px-3 py-1 rounded-full text-xs font-medium bg-purple-500/10 dark:bg-purple-500/15 text-[#7611a6] dark:text-[#c561f6] border border-purple-500/20">
-                      {project.badgeText}
-                    </span>
+
+                    {/* Key Highlights */}
+                    <ul className="space-y-2 pt-1">
+                      {project.highlights.map((item, idx) => (
+                        <li
+                          key={idx}
+                          className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300"
+                        >
+                          <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#c561f6] shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-
-                  <p className="text-slate-600 dark:text-[#a3acc8] text-sm sm:text-base leading-relaxed">
-                    {project.description}
-                  </p>
-
-                  {/* Key Highlights */}
-                  <ul className="space-y-2 pt-2">
-                    {project.highlights.map((item, idx) => (
-                      <li
-                        key={idx}
-                        className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300"
-                      >
-                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#c561f6] shrink-0" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
 
                 {/* Tags & Action Links */}
@@ -551,10 +622,77 @@ export default function App() {
                         <span>View on GitHub</span>
                       </a>
                     )}
+                    {!project.liveUrl && !project.repoUrl && (
+                      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                        <Lock className="w-3.5 h-3.5 text-[#c561f6]" />
+                        <span>Private Production Repository</span>
+                      </span>
+                    )}
                   </div>
                 </div>
               </article>
             ))}
+          </div>
+        </section>
+
+        {/* Engineering Leadership & Operating Philosophy Section */}
+        <section id="leadership" className="space-y-8">
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+              <ShieldCheck className="w-4 h-4" />
+              <span>How I Lead &amp; Architect</span>
+            </div>
+            <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#090b11] dark:text-white">
+              Engineering Leadership Philosophy
+            </h2>
+            <p className="text-slate-600 dark:text-[#a3acc8] text-base sm:text-lg">
+              Great software organizations scale through clarity, automated guardrails, and
+              pragmatic technical judgment rather than heavy bureaucracy.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
+                <CheckCircle2 className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
+                Guardrails Over Gatekeeping
+              </h3>
+              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
+                Replace manual review bottlenecks with automated branch policy compliance,
+                environment drift detection, and deterministic CI/CD checks so teams deploy
+                safely at high velocity.
+              </p>
+            </div>
+
+            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
+                <Cpu className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
+                Diagnostic Delivery Metrics
+              </h3>
+              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
+                Use DORA and SPACE frameworks to diagnose systemic friction—like PR review
+                queue imbalances or scope spillover—empowering teams rather than policing
+                individuals.
+              </p>
+            </div>
+
+            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
+                <Layers className="w-5 h-5" />
+              </div>
+              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
+                Constraint-Driven Architecture
+              </h3>
+              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
+                Design directly around real constraints—whether that means strangler-fig
+                modernization in enterprise .NET, zero-egress client extensions, or
+                low-latency edge workers.
+              </p>
+            </div>
           </div>
         </section>
 
