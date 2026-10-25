@@ -1,14 +1,22 @@
 import { useEffect, useState } from 'react';
 import {
+  Activity,
   ArrowUpRight,
   BarChart3,
   Briefcase,
+  Check,
   CheckCircle2,
+  ChevronDown,
+  ChevronUp,
   Code2,
   Compass,
+  Copy,
   Cpu,
   ExternalLink,
+  Eye,
+  Film,
   FolderGit2,
+  GitBranch,
   Github,
   Layers,
   Lock,
@@ -16,7 +24,9 @@ import {
   MapPin,
   Menu,
   Moon,
+  Radio,
   Send,
+  ShieldAlert,
   ShieldCheck,
   Sparkles,
   Sun,
@@ -26,152 +36,486 @@ import {
   X,
 } from 'lucide-react';
 
-interface Project {
+type ViewLens = 'executive' | 'xray';
+
+interface OperatingPillar {
+  id: string;
+  code: string;
+  label: string;
+  title: string;
+  subtitle: string;
+  thesis: string;
+  antiPattern: string;
+  operatingStandard: string;
+  signals: { metric: string; target: string; context: string }[];
+  proofLabel: string;
+  proofHref: string;
+}
+
+const OPERATING_PILLARS: OperatingPillar[] = [
+  {
+    id: 'org-scale',
+    code: '01 / ORG DESIGN',
+    label: 'High-Trust Autonomy & Low Cognitive Load',
+    title: 'Scaling Teams Through Clarity, Ownership & Psychological Safety',
+    subtitle: 'Organizational Topology & Manager Empowerment',
+    thesis:
+      'High-performing engineering organizations scale when teams have crisp domain boundaries, clear decision rights, and low extraneous cognitive load. My role as a Director is to design team topologies and coaching systems where engineering managers and staff engineers can execute with autonomy rather than waiting on top-down escalation.',
+    antiPattern:
+      'Siloed component teams, ambiguous ownership boundaries, and hero-driven firefighting that burn out senior engineers.',
+    operatingStandard:
+      'Stream-aligned product & platform teams with explicit service contracts, structured RFC/ADR culture, and deliberate manager mentorship.',
+    signals: [
+      {
+        metric: 'Team Autonomy',
+        target: 'Decoupled Bounded Contexts',
+        context: 'Clear API & domain contracts across .NET and web services',
+      },
+      {
+        metric: 'Onboarding Velocity',
+        target: '< 1 Week to First Prod PR',
+        context: 'Standardized golden paths and deterministic local dev setups',
+      },
+      {
+        metric: 'Leadership Leverage',
+        target: 'Managers & Staff ICs Aligned',
+        context: 'Paired technical & people leadership cadences',
+      },
+    ],
+    proofLabel: 'See how Shipwright codifies team visibility',
+    proofHref: '#shipwright-spotlight',
+  },
+  {
+    id: 'diagnostics',
+    code: '02 / DIAGNOSTICS',
+    label: 'Diagnostic Delivery Health (DORA + SPACE)',
+    title: 'Illuminating Systemic Friction Without Weaponizing Metrics',
+    subtitle: 'Evidence-Based Engineering Operations',
+    thesis:
+      'Goodhart’s Law destroys engineering culture the moment velocity or PR counts are used to rank individuals. I use DORA and SPACE telemetry strictly as an organizational stethoscope—pinpointing systemic bottlenecks like PR review pickup delays, reviewer queue imbalances, and mid-sprint scope creep so leadership can remove friction.',
+    antiPattern:
+      'Vanity story-point velocity targets and individual commit leaderboards that incentivize gaming over software quality.',
+    operatingStandard:
+      'Stage-level PR cycle-time forensics (Coding → Pickup → Review → Merge) paired with reviewer load balancing and change-failure analysis.',
+    signals: [
+      {
+        metric: 'PR Pickup Latency',
+        target: 'P75 < 4 Hours',
+        context: 'Tracked via automated review-queue load balancing',
+      },
+      {
+        metric: 'Flow Protection',
+        target: 'Scope Spillover Forensics',
+        context: 'Distinguishing unplanned interrupts from estimation variance',
+      },
+      {
+        metric: 'Delivery Stability',
+        target: 'DORA Elite / High Tier',
+        context: 'Balancing deployment frequency with low change-failure rates',
+      },
+    ],
+    proofLabel: 'Try the EngPulse DORA preview below',
+    proofHref: '#shipwright-spotlight',
+  },
+  {
+    id: 'governance',
+    code: '03 / GOVERNANCE',
+    label: 'Automated Guardrails Over CAB Gatekeeping',
+    title: 'Replacing Manual Review Bottlenecks with Deterministic Policy Code',
+    subtitle: 'Continuous Compliance & Blast-Radius Safety',
+    thesis:
+      'Heavyweight manual Change Advisory Boards (CABs) slow delivery without actually preventing production incidents. Real safety comes from shifting governance into automated CI/CD guardrails: cross-repository branch policy enforcement, multi-environment secret & variable drift detection, and 1-click SOC2/ISO27001 audit evidence.',
+    antiPattern:
+      'Manual spreadsheet checklists, snowflake environment configurations, and unmasked pipeline secrets discovered during outages.',
+    operatingStandard:
+      'Automated branch policy drift remediation, CODEOWNERS synchronization, and pre-deployment variable blast-radius scanning.',
+    signals: [
+      {
+        metric: 'Policy Drift',
+        target: '0 Unprotected Branches',
+        context: 'Continuous cross-repo branch policy & CODEOWNERS enforcement',
+      },
+      {
+        metric: 'Config Hygiene',
+        target: 'DEV → STAGE → PROD Parity',
+        context: 'Automated missing-key & unmasked secret detection',
+      },
+      {
+        metric: 'Audit Readiness',
+        target: '1-Click SOC2 Evidence',
+        context: 'Instant compliance exports without developer interruption',
+      },
+    ],
+    proofLabel: 'Inspect PolicyGuard & EnvMatrix in Shipwright',
+    proofHref: '#shipwright-spotlight',
+  },
+  {
+    id: 'architecture',
+    code: '04 / ARCHITECTURE',
+    label: 'Pragmatic, Constraint-Driven Systems',
+    title: 'Matching System Architecture to Business & Security Realities',
+    subtitle: 'Hands-On Technical Judgment & Unit Economics',
+    thesis:
+      'Whether modernizing legacy enterprise .NET estates via strangler-fig boundaries or building zero-egress client extensions and low-latency Cloudflare Workers, architecture must serve security compliance, maintainability, and unit economics. Staying hands-on in code keeps my architectural judgment sharp and grounded.',
+    antiPattern:
+      'Resume-driven microservices or risky "big-bang" rewrites that stall product delivery for quarters.',
+    operatingStandard:
+      'Incremental .NET Standard strangler-fig migrations, zero-egress client execution for enterprise SaaS, and edge-native compute.',
+    signals: [
+      {
+        metric: 'SaaS Unit Economics',
+        target: '$0/mo Cloud Overhead',
+        context: '100% client-side execution + offline Web Crypto licensing',
+      },
+      {
+        metric: 'Legacy Modernization',
+        target: 'Zero-Downtime Strangler Fig',
+        context: 'Shared .NET Standard domain contracts across .NET Framework & modern .NET',
+      },
+      {
+        metric: 'Edge Latency',
+        target: 'Global Edge Workers',
+        context: 'TypeScript & Python Cloudflare Workers + Supabase RLS',
+      },
+    ],
+    proofLabel: 'Toggle "Architecture X-Ray" on the systems below',
+    proofHref: '#projects',
+  },
+];
+
+interface ShipwrightModule {
+  id: 'engpulse' | 'policyguard' | 'envmatrix' | 'mermaidscope';
+  name: string;
+  hub: string;
+  tagline: string;
+  summary: string;
+  metrics: { label: string; value: string; status: 'optimal' | 'warning' | 'info' }[];
+  telemetryRows: { left: string; middle: string; right: string; pill: string }[];
+}
+
+const SHIPWRIGHT_MODULES: ShipwrightModule[] = [
+  {
+    id: 'engpulse',
+    name: 'EngPulse',
+    hub: 'Azure Boards & Repos',
+    tagline: 'Zero-Egress DORA + SPACE Engineering Intelligence',
+    summary:
+      'Deconstructs PR cycle time into Coding, Pickup, Review, and Merge stages, balances reviewer queues, and tracks sprint scope spillover entirely inside the browser.',
+    metrics: [
+      { label: 'Deploy Freq', value: '4.6 / day', status: 'optimal' },
+      { label: 'PR Pickup P75', value: '1.9 hrs', status: 'optimal' },
+      { label: 'Change Failure', value: '2.4%', status: 'optimal' },
+    ],
+    telemetryRows: [
+      {
+        left: 'Stage 01 · Coding → PR Open',
+        middle: 'Median 6.2h',
+        right: 'Healthy batch size (< 280 LOC)',
+        pill: 'FLOW OK',
+      },
+      {
+        left: 'Stage 02 · PR Pickup Wait',
+        middle: 'Median 1.9h',
+        right: 'Reviewer load balanced across 8 seniors',
+        pill: 'OPTIMAL',
+      },
+      {
+        left: 'Stage 03 · Sprint Spillover',
+        middle: '8.1% Unplanned',
+        right: '2 hotfix interrupts flagged in retro',
+        pill: 'DIAGNOSED',
+      },
+    ],
+  },
+  {
+    id: 'policyguard',
+    name: 'PolicyGuard',
+    hub: 'Azure Repos',
+    tagline: 'Cross-Repo Branch Governance & SOC2 Evidence Engine',
+    summary:
+      'Audits branch policies across dozens of repositories simultaneously, detects configuration drift, syncs CODEOWNERS, and exports signed SOC2/ISO27001 compliance artifacts in 1 click.',
+    metrics: [
+      { label: 'Repos Audited', value: '48 / 48', status: 'optimal' },
+      { label: 'Policy Drift', value: '0 Unprotected', status: 'optimal' },
+      { label: 'Audit Export', value: 'SOC2 Ready', status: 'info' },
+    ],
+    telemetryRows: [
+      {
+        left: 'core-payments-service (main)',
+        middle: 'Min 2 Reviewers · Build Gate',
+        right: 'CODEOWNERS synced',
+        pill: 'COMPLIANT',
+      },
+      {
+        left: 'identity-gateway-net (main)',
+        middle: 'Reset Votes on Push Enabled',
+        right: 'Zero bypasses in 90d',
+        pill: 'COMPLIANT',
+      },
+      {
+        left: 'legacy-reporting-api (release/*)',
+        middle: '1-Click Bulk Remediated',
+        right: 'Cryptographic audit log exported',
+        pill: 'ENFORCED',
+      },
+    ],
+  },
+  {
+    id: 'envmatrix',
+    name: 'EnvMatrix',
+    hub: 'Azure Pipelines',
+    tagline: 'Multi-Environment Variable Diff & Blast-Radius Scanner',
+    summary:
+      'Compares Variable Groups across DEV, QA, STAGE, and PROD, flags missing keys or unmasked secrets before deployment, and maps downstream pipeline blast radius.',
+    metrics: [
+      { label: 'Environments', value: 'DEV·QA·STG·PRD', status: 'info' },
+      { label: 'Unmasked Secrets', value: '0 Exposed', status: 'optimal' },
+      { label: 'Key Parity', value: '100% Synced', status: 'optimal' },
+    ],
+    telemetryRows: [
+      {
+        left: 'STRIPE_WEBHOOK_SECRET',
+        middle: 'DEV ✓ · STAGE ✓ · PROD ✓',
+        right: 'Masked secret lock verified',
+        pill: 'LOCKED',
+      },
+      {
+        left: 'REDIS_CONN_TIMEOUT_MS',
+        middle: 'DEV (5000) → PROD (5000)',
+        right: 'Used by 6 YAML release pipelines',
+        pill: 'PARITY OK',
+      },
+      {
+        left: 'FEATURE_FLAG_NEW_CHECKOUT',
+        middle: 'Blast Radius: 3 Services',
+        right: 'Pre-deploy parity check passed',
+        pill: 'VERIFIED',
+      },
+    ],
+  },
+  {
+    id: 'mermaidscope',
+    name: 'MermaidScope',
+    hub: 'Azure DevOps Wiki & Markdown',
+    tagline: 'Interactive Architecture Diagrams Inside ADO',
+    summary:
+      'Brings pan, zoom, full-screen inspection, and architectural diagram rendering directly into Azure DevOps pull requests, wikis, and ADR documents.',
+    metrics: [
+      { label: 'ADR Diagrams', value: 'Interactive', status: 'optimal' },
+      { label: 'Data Egress', value: '0 Bytes', status: 'optimal' },
+      { label: 'License Tier', value: 'Free Community', status: 'info' },
+    ],
+    telemetryRows: [
+      {
+        left: 'ADR-014: Strangler-Fig .NET Gateway',
+        middle: 'Sequence & C4 Topology',
+        right: 'Rendered client-side in PR view',
+        pill: 'ACTIVE',
+      },
+      {
+        left: 'RFC-022: Zero-Egress Web Crypto Licensing',
+        middle: 'State Diagram & Key Flow',
+        right: 'SVG export & pan/zoom enabled',
+        pill: 'ACTIVE',
+      },
+      {
+        left: 'Platform Team Onboarding Playbook',
+        middle: 'System Boundaries Map',
+        right: 'Zero external CDN calls',
+        pill: 'ZERO-EGRESS',
+      },
+    ],
+  },
+];
+
+const RAFTERS_PERSONAS = [
+  {
+    id: 'broadcast',
+    label: '🎙️ Broadcast Analyst',
+    tone: 'SportsCenter Primetime Dispatch',
+    sample:
+      '"Week 8 Headliner: Despite posting the 2nd-highest score in the league (142.8 pts), Westside Dynasty falls to a Monday Night miracle—dropping their All-Play Luck Index to -2.4 wins on the season."',
+  },
+  {
+    id: 'stathead',
+    label: '🤓 Fantasy Stathead',
+    tone: 'Expected Win Variance & Lineup Efficiency',
+    sample:
+      '"Quantitative Audit: Team Alpha is running a 94.2% optimal lineup efficiency over a 3-week rolling window, with an Expected Win Rate (xW%) of 0.727 against all 11 opponents."',
+  },
+  {
+    id: 'savage',
+    label: '🔥 Savage Roaster',
+    tone: 'High-Energy League Banter',
+    sample:
+      '"Bench Regret Alert 🚨: Leaving 31.4 points on the pine while losing by 2.1 points isn’t bad luck—it’s a coaching masterclass in self-sabotage."',
+  },
+  {
+    id: 'spreads',
+    label: '🎰 Point Spreads',
+    tone: 'Implied Probabilities & Over/Unders',
+    sample:
+      '"Opening Line: Gridiron Kings (-6.5) vs. Cville Cavaliers (+6.5) • O/U 248.5 • Implied Win Probability: 68.4% based on 15-year historical matchup variance."',
+  },
+] as const;
+
+const CALLSHEET_DAYS = [
+  {
+    day: 'Mon · Soundtrack Synth',
+    mechanic: 'Procedural Web Audio Motif',
+    clue: 'Progressive 4-bar Web Audio API synthesizer motif + live canvas waveform visualizer. Solve the film in ≤ 5 guesses as additional instrument tracks unlock.',
+  },
+  {
+    day: 'Wed · Box Office Trajectory',
+    mechanic: 'Financial & Critical Curve',
+    clue: 'Inspect production budget, opening weekend multiplier, inflation-adjusted domestic gross, and decade release window to deduce the feature film.',
+  },
+  {
+    day: 'Fri · Redacted Screenplay',
+    mechanic: 'Classified Script Page',
+    clue: 'Read an authentic formatting-accurate screenplay excerpt with character nouns redacted; each guess reveals director, composer, or lead billing.',
+  },
+] as const;
+
+interface CompactProject {
   id: string;
   title: string;
   subtitle: string;
-  category: 'SaaS & DevTools' | 'Edge Platforms & Data' | 'Interactive & Web Apps' | 'Architecture & .NET';
-  description: string;
-  architecturalThesis: string;
-  highlights: string[];
-  tags: string[];
-  liveUrl?: string;
-  repoUrl?: string;
-  accentGradient: string;
+  category: string;
   badgeText: string;
+  accentGradient: string;
+  executiveSummary: string;
+  executiveOutcomes: string[];
+  xrayTopology: string;
+  xrayAuthAndState: string;
+  xrayTradeoff: string;
+  tags: string[];
+  repoUrl?: string;
 }
 
-const PROJECTS: Project[] = [
-  {
-    id: 'shipwright',
-    title: 'Shipwright',
-    subtitle: 'Commercial Azure DevOps Engineering Intelligence & Governance Suite',
-    category: 'SaaS & DevTools',
-    description:
-      'Born directly out of the visibility and governance challenges of leading multi-team engineering organizations: a suite of four commercial Azure DevOps extensions (EngPulse DORA + SPACE analytics, PolicyGuard, EnvMatrix, and MermaidScope) engineered with a 100% client-side, zero-external-data-egress architecture.',
-    architecturalThesis:
-      'Enterprise security teams routinely block third-party SaaS tools that exfiltrate source code or pipeline metadata. Running 100% client-side inside the Azure DevOps host frame with an offline Web Crypto BYOL licensing engine eliminates procurement friction and reduces cloud hosting overhead to $0/month.',
-    highlights: [
-      'EngPulse: Executive & team-level DORA metrics scorecard, PR cycle-time stage forensics, and reviewer load balancing',
-      'PolicyGuard: Cross-repo branch policy compliance matrix, 1-click drift remediation, and SOC2/ISO27001 evidence exporter',
-      'EnvMatrix: Multi-environment Variable Group diff matrix, unmasked secret detector, and pipeline blast-radius scanner',
-    ],
-    tags: ['DORA & SPACE Metrics', 'Engineering Governance', 'TypeScript', 'React', 'Azure DevOps SDK', 'Web Crypto'],
-    liveUrl: 'https://shipwrighthq.com',
-    accentGradient: 'from-[#c561f6] via-[#7611a6] to-[#4c11c6]',
-    badgeText: 'shipwrighthq.com',
-  },
-  {
-    id: 'rafters',
-    title: 'Rafters',
-    subtitle: 'Fantasy Sports Intelligence Hub & Multi-Persona Discord Engine',
-    category: 'Edge Platforms & Data',
-    description:
-      'A full-stack sports analytics platform ("Where Dynasties Hang Forever") that reconstructs 15+ years of ESPN league history, calculates expected win variance and point spreads, and powers an automated Discord intelligence bot with 5 switchable analytical personas.',
-    architecturalThesis:
-      'Built on Cloudflare Python Workers at the edge paired with Supabase and Stripe, combining historical multi-decade data normalization with real-time Sunday/Monday game-day polling for lead changes, clutch nail-biters, and bench efficiency.',
-    highlights: [
-      'Reconstructs 15+ years of longitudinal league history, career trophy rooms, and head-to-head rivalries',
-      'Quantitative analytics engine: All-Play Expected Win % ("Luck Index"), Power Rankings 2.0, and implied point spreads',
-      '5 switchable Discord broadcast personas (ESPN Broadcast Analyst, Stathead, Classic Commissioner, Savage Roaster, Spreads)',
-    ],
-    tags: ['Python', 'Cloudflare Python Workers', 'Supabase', 'Discord API', 'Stripe', 'Statistical Modeling'],
-    liveUrl: 'https://raftersfantasy.com',
-    accentGradient: 'from-[#10b981] via-[#059669] to-[#7611a6]',
-    badgeText: 'raftersfantasy.com',
-  },
-  {
-    id: 'callsheet',
-    title: 'The Callsheet',
-    subtitle: 'Daily Cinema Dispatch & Collaborative Film Club',
-    category: 'Interactive & Web Apps',
-    description:
-      'A daily cinephile deduction game featuring a 7-day rotating puzzle mechanic (Web Audio synth motifs, box office curves, frame crops, and script redactions), workplace film leagues, 27 collectible movie prop badges, and studio supervisor Otto the Cat.',
-    architecturalThesis:
-      'Designed for zero-friction daily play with guest-to-authenticated UUID state migration, strict Supabase Row-Level Security (RLS) inside a dedicated schema, and procedural Web Audio synthesizer soundtracks.',
-    highlights: [
-      '7-day themed puzzle rotation with procedural Web Audio synth motifs and animated waveform visualizers',
-      'Collaborative workplace & friend film leagues with live daily leaderboards and season standings',
-      'Edge-deployed on Cloudflare Workers with isolated Supabase Postgres schema and automated archival play',
-    ],
-    tags: ['React 18', 'TypeScript', 'Tailwind CSS', 'Supabase RLS', 'Web Audio API', 'Cloudflare'],
-    liveUrl: 'https://callsheet.quest',
-    accentGradient: 'from-[#f59e0b] via-[#c561f6] to-[#7611a6]',
-    badgeText: 'callsheet.quest',
-  },
+const COMPACT_PROJECTS: CompactProject[] = [
   {
     id: 'obsidian-gateway',
     title: 'Obsidian Multi-Site & Email Gateway',
     subtitle: 'Multi-Tenant Knowledge Portal & Edge Email-to-Markdown Pipeline',
     category: 'Edge Platforms & Data',
-    description:
-      'A live-synced multi-site web portal and authentication gateway powered directly by an Obsidian Markdown vault, featuring granular per-user RBAC and an automated Cloudflare Email Worker that ingests incoming emails and URLs into structured Markdown notes.',
-    architecturalThesis:
-      'Bridges local-first Markdown authoring with edge cloud publishing using Next.js (OpenNext on Cloudflare Workers), scrypt-hashed passcodes, and an inbound email worker that parses, scrapes, and standardizes content automatically.',
-    highlights: [
-      'Turns any Obsidian vault folder into an isolated web portal with per-user scrypt passcode RBAC and admin curation',
-      'Inbound Cloudflare Email Routing worker with URL scraping and structured Markdown frontmatter generation',
-      'Interactive recipe scaling (0.5×–3×), step-by-step cook mode, built-in timers, and Supabase guestbook persistence',
-    ],
-    tags: ['Next.js', 'OpenNext', 'Cloudflare Workers', 'Email Routing Worker', 'Supabase', 'TypeScript'],
-    accentGradient: 'from-[#3b82f6] via-[#6366f1] to-[#c561f6]',
     badgeText: 'Edge Architecture',
+    accentGradient: 'from-[#3b82f6] via-[#6366f1] to-[#c561f6]',
+    executiveSummary:
+      'Turns folders in a local Obsidian Markdown vault into isolated, access-controlled web portals with an automated Cloudflare Email Worker that converts inbound emails and URLs into structured Markdown notes.',
+    executiveOutcomes: [
+      'Zero-CMS authoring: write locally in Obsidian Markdown and publish selectively via frontmatter or admin curation',
+      'Automated Email-to-Markdown ingestion worker with URL scraping and recipe/note standardization',
+      'Granular per-user access control (Admin, Contributors, Family) with interactive guestbook & dynamic scaling',
+    ],
+    xrayTopology: 'Obsidian Vault / Inbound Email → Cloudflare Email Worker → OpenNext Worker → Supabase Postgres',
+    xrayAuthAndState: 'scrypt-hashed passcode RBAC + HTTP-only signed sessions + Supabase live note overrides',
+    xrayTradeoff:
+      'Avoids heavy headless CMS licensing by compiling vault Markdown into deterministic edge bundles augmented by live Supabase state.',
+    tags: ['Next.js', 'OpenNext', 'Cloudflare Workers', 'Email Routing Worker', 'Supabase', 'scrypt RBAC'],
   },
   {
     id: 'taxa',
     title: 'TAXA',
     subtitle: 'Daily Nature & Biology Connections Game & PWA',
     category: 'Interactive & Web Apps',
-    description:
-      'A mobile-first daily wildlife and ecosystem deduction game with dual-track difficulty (Fledgling & Naturalist modes), procedural Web Audio biome soundscapes, tap-to-speak pronunciation, and collectible 16-bit pixel-art specimen cards.',
-    architecturalThesis:
-      'Engineered with zero external UI framework dependencies—using a custom 24×24 16-bit pixel-art sprite renderer and procedural Web Audio synthesizer to deliver an instant-loading, offline-capable Progressive Web App.',
-    highlights: [
-      'Dual-track difficulty modes tailored for both young learners (Fledgling) and biology enthusiasts (Naturalist)',
-      'Custom 24×24 16-bit pixel-art specimen card engine and procedural avian & biome Web Audio soundscapes',
-      'Offline-ready PWA with zero-login instant play, field journal honors shelf, and family discussion prompts',
-    ],
-    tags: ['JavaScript', 'Web Audio API', 'PWA', '16-Bit Pixel Engine', 'Supabase'],
-    accentGradient: 'from-[#14b8a6] via-[#10b981] to-[#4c11c6]',
     badgeText: 'Daily Game & PWA',
+    accentGradient: 'from-[#14b8a6] via-[#10b981] to-[#4c11c6]',
+    executiveSummary:
+      'A mobile-first daily wildlife and ecosystem deduction game featuring dual-track difficulty (Fledgling for kids & Naturalist for adults), collectible 16-bit specimen cards, and offline PWA support.',
+    executiveOutcomes: [
+      'Dual-track UX design: accessible tap-to-speak audio & 12-card mode for kids alongside 16-card evolutionary overlap for adults',
+      'Collectible 16-bit pixel-art specimen cards & biome mastery citations that drive daily habit retention',
+      'Frictionless zero-login instant play with optional family dinner-table discussion prompts',
+    ],
+    xrayTopology: 'Zero-Dependency Vanilla ES Modules → Custom 24×24 Pixel Sprite Engine → Web Audio Synth → Service Worker',
+    xrayAuthAndState: 'Local-first offline PWA storage with optional Supabase anonymous telemetry & daily puzzle sync',
+    xrayTradeoff:
+      'Eliminated framework bundle overhead entirely—custom pixel rendering and procedural bird-call synthesis load in < 35KB.',
+    tags: ['JavaScript', 'Web Audio API', 'PWA Service Worker', '16-Bit Sprite Engine', 'Supabase'],
   },
   {
     id: 'net-architecture',
     title: 'Enterprise .NET Modernization Patterns',
     subtitle: 'Legacy .NET Framework to Modern .NET Multi-Targeting Reference',
     category: 'Architecture & .NET',
-    description:
-      'Reference implementation demonstrating pragmatic code-sharing and incremental migration boundaries between legacy .NET Framework applications and modern .NET workloads using .NET Standard contracts.',
-    architecturalThesis:
-      'Enterprise .NET migrations rarely happen in a single big-bang rewrite. Isolating core domain logic in .NET Standard allows legacy .NET Framework apps and modern .NET web services to evolve side-by-side with minimal organizational risk.',
-    highlights: [
-      'Demonstrates shared domain libraries across .NET Framework console workloads and modern .NET web applications',
-      'Evaluates architectural trade-offs between direct project references and internal NuGet package boundaries',
-      'Grounded in real-world enterprise modernization and multi-team .NET architecture',
-    ],
-    tags: ['C#', '.NET', '.NET Standard', 'Legacy Modernization', 'Clean Architecture'],
-    repoUrl: 'https://github.com/stevenfowler16/NETArchitectureExamples',
-    accentGradient: 'from-[#6366f1] via-[#8b5cf6] to-[#c561f6]',
     badgeText: 'Open Source Reference',
+    accentGradient: 'from-[#6366f1] via-[#8b5cf6] to-[#c561f6]',
+    executiveSummary:
+      'Architectural reference patterns for incrementally modernizing legacy enterprise .NET Framework applications to modern .NET without high-risk "big-bang" rewrites.',
+    executiveOutcomes: [
+      'De-risks multi-quarter enterprise migrations by isolating shared domain contracts in .NET Standard 2.0',
+      'Allows legacy .NET Framework workloads and modern .NET web services to ship features simultaneously',
+      'Documents concrete team trade-offs between direct project references and internal NuGet package boundaries',
+    ],
+    xrayTopology: 'Legacy .NET Framework App + Modern .NET Web App → Shared .NET Standard 2.0 Domain Contract Layer',
+    xrayAuthAndState: 'Compile-time multi-targeted solution boundaries with strict dependency inversion',
+    xrayTradeoff:
+      'Trades NuGet versioning overhead for immediate cross-solution refactoring velocity during active strangler-fig migrations.',
+    tags: ['C#', '.NET', '.NET Standard 2.0', 'Strangler-Fig Migration', 'Clean Architecture'],
+    repoUrl: 'https://github.com/stevenfowler16/NETArchitectureExamples',
   },
 ];
 
-const CATEGORIES = [
-  'All',
-  'SaaS & DevTools',
-  'Edge Platforms & Data',
-  'Interactive & Web Apps',
-  'Architecture & .NET',
+const CONTACT_TOPICS = [
+  {
+    id: 'leadership',
+    label: 'Engineering Leadership & Org Scale',
+    subject: 'Connecting via stevenfowler.dev — Engineering Leadership',
+  },
+  {
+    id: 'shipwright',
+    label: 'Shipwright & DevOps Governance',
+    subject: 'Connecting via stevenfowler.dev — Shipwright / DevOps Governance',
+  },
+  {
+    id: 'architecture',
+    label: 'Enterprise Architecture & Advisory',
+    subject: 'Connecting via stevenfowler.dev — Architecture & Advisory',
+  },
 ] as const;
 
 export default function App() {
   const [isDark, setIsDark] = useState<boolean>(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const [activeCategory, setActiveCategory] = useState<(typeof CATEGORIES)[number]>('All');
+
+  // Interactive Component 1: Director's Operating System
+  const [activePillarId, setActivePillarId] = useState<string>(OPERATING_PILLARS[0].id);
+
+  // Interactive Component 2: Global Executive ROI vs. Architecture X-Ray Lens
+  const [viewLens, setViewLens] = useState<ViewLens>('executive');
+
+  // Interactive Component 3: Shipwright Module Switcher + Rafters Persona + Callsheet Day
+  const [activeShipwrightId, setActiveShipwrightId] =
+    useState<ShipwrightModule['id']>('engpulse');
+  const [activeRaftersPersona, setActiveRaftersPersona] = useState<number>(0);
+  const [activeCallsheetDay, setActiveCallsheetDay] = useState<number>(0);
+  const [expandedCompactId, setExpandedCompactId] = useState<string | null>(null);
+
+  // Contact Console State
+  const [selectedTopic, setSelectedTopic] = useState<(typeof CONTACT_TOPICS)[number]>(
+    CONTACT_TOPICS[0]
+  );
+  const [copiedEmail, setCopiedEmail] = useState<boolean>(false);
 
   useEffect(() => {
     const root = document.documentElement;
     setIsDark(root.classList.contains('dark'));
+  }, []);
+
+  // Keyboard shortcut 'x' to toggle Executive vs. Architecture X-Ray lens
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || e.metaKey || e.ctrlKey || e.altKey) {
+        return;
+      }
+      if (e.key.toLowerCase() === 'x') {
+        setViewLens((prev) => (prev === 'executive' ? 'xray' : 'executive'));
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const toggleTheme = () => {
@@ -185,21 +529,37 @@ export default function App() {
     }
   };
 
-  const filteredProjects =
-    activeCategory === 'All'
-      ? PROJECTS
-      : PROJECTS.filter((project) => project.category === activeCategory);
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText('stevenfowler16@gmail.com');
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2200);
+    } catch {
+      window.location.href = 'mailto:stevenfowler16@gmail.com';
+    }
+  };
+
+  const activePillar =
+    OPERATING_PILLARS.find((p) => p.id === activePillarId) || OPERATING_PILLARS[0];
+  const activeShipwright =
+    SHIPWRIGHT_MODULES.find((m) => m.id === activeShipwrightId) || SHIPWRIGHT_MODULES[0];
 
   return (
     <div className="min-h-screen flex flex-col ambient-mesh relative overflow-x-hidden">
+      {/* Subtle Architectural Grid Overlay */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 bg-grid-pattern -z-10"
+      />
+
       {/* Top Ambient Decorative Glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[950px] h-[420px] bg-gradient-to-tr from-[#c561f6]/20 via-[#7611a6]/15 to-[#4c11c6]/10 blur-3xl -z-10 rounded-full"
+        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[980px] h-[440px] bg-gradient-to-tr from-[#c561f6]/20 via-[#7611a6]/15 to-[#4c11c6]/10 blur-3xl -z-10 rounded-full"
       />
 
-      {/* Navigation */}
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-[#f8f9fc]/80 dark:bg-[#090b11]/80 border-b border-slate-200/70 dark:border-slate-800/80 transition-colors">
+      {/* Sticky Glass Header */}
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#f8f9fc]/80 dark:bg-[#090b11]/80 border-b border-slate-200/75 dark:border-white/[0.08] transition-colors">
         <nav className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <a
             href="#"
@@ -210,48 +570,66 @@ export default function App() {
             </span>
             <div className="flex flex-col">
               <span className="leading-none">Steven Fowler</span>
-              <span className="text-xs font-normal text-slate-500 dark:text-slate-400 mt-0.5">
+              <span className="font-mono text-[11px] font-medium text-[#7611a6] dark:text-[#c561f6] mt-1">
                 Director of Engineering
               </span>
             </div>
           </a>
 
           {/* Desktop Nav Pill */}
-          <div className="hidden md:flex items-center gap-1 p-1.5 rounded-full bg-white/90 dark:bg-[#141925]/90 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+          <div className="hidden md:flex items-center gap-1 p-1.5 rounded-full bg-white/90 dark:bg-[#0f131d]/90 border border-slate-200/90 dark:border-white/[0.08] shadow-sm">
             <a
               href="#about"
               className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
             >
-              Overview
-            </a>
-            <a
-              href="#pillars"
-              className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
-            >
-              Focus Areas
+              Executive Profile
             </a>
             <a
               href="#leadership"
               className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
             >
-              Leadership Philosophy
+              Operating System
+            </a>
+            <a
+              href="#shipwright-spotlight"
+              className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
+            >
+              Shipwright Suite
             </a>
             <a
               href="#projects"
               className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
             >
-              Systems &amp; Products
+              Systems Lab
             </a>
             <a
               href="#contact"
               className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
             >
-              Contact
+              Connect
             </a>
           </div>
 
           {/* Right Actions */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2.5">
+            <button
+              onClick={() =>
+                setViewLens((prev) => (prev === 'executive' ? 'xray' : 'executive'))
+              }
+              title="Toggle Architecture X-Ray Lens (Shortcut: X)"
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-mono text-xs font-medium border transition-all cursor-pointer ${
+                viewLens === 'xray'
+                  ? 'bg-[#7611a6] text-white border-[#c561f6]/50 shadow-sm shadow-[#7611a6]/30'
+                  : 'bg-white/80 dark:bg-[#0f131d] text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/[0.08] hover:border-[#c561f6]/40'
+              }`}
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>{viewLens === 'xray' ? 'X-Ray: ON' : 'X-Ray'}</span>
+              <kbd className="hidden lg:inline-block ml-1 px-1.5 py-0.2 rounded text-[10px] bg-black/10 dark:bg-white/10">
+                X
+              </kbd>
+            </button>
+
             <a
               href="https://github.com/stevenfowler16"
               target="_blank"
@@ -260,13 +638,6 @@ export default function App() {
               className="p-2.5 rounded-full text-slate-600 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-slate-200/60 dark:hover:bg-slate-800/70 transition-colors"
             >
               <Github className="w-5 h-5" />
-            </a>
-            <a
-              href="mailto:stevenfowler16@gmail.com"
-              aria-label="Email Steven Fowler"
-              className="p-2.5 rounded-full text-slate-600 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-slate-200/60 dark:hover:bg-slate-800/70 transition-colors"
-            >
-              <Mail className="w-5 h-5" />
             </a>
 
             {/* Theme Toggle Pill */}
@@ -304,7 +675,11 @@ export default function App() {
               aria-label="Toggle color theme"
               className="p-2 rounded-full bg-slate-200/70 dark:bg-[#141925] border border-purple-500/30 text-slate-700 dark:text-slate-200"
             >
-              {isDark ? <Moon className="w-4 h-4 text-[#c561f6]" /> : <Sun className="w-4 h-4 text-[#7611a6]" />}
+              {isDark ? (
+                <Moon className="w-4 h-4 text-[#c561f6]" />
+              ) : (
+                <Sun className="w-4 h-4 text-[#7611a6]" />
+              )}
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -322,11 +697,11 @@ export default function App() {
           <div className="md:hidden border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-[#141925]/95 backdrop-blur-lg px-6 py-5 space-y-4">
             <div className="flex flex-col space-y-2">
               {[
-                { label: 'Overview', href: '#about' },
-                { label: 'Focus Areas', href: '#pillars' },
-                { label: 'Leadership Philosophy', href: '#leadership' },
-                { label: 'Systems & Products', href: '#projects' },
-                { label: 'Contact', href: '#contact' },
+                { label: 'Executive Profile', href: '#about' },
+                { label: 'Director’s Operating System', href: '#leadership' },
+                { label: 'Shipwright Flagship Suite', href: '#shipwright-spotlight' },
+                { label: 'Systems & Product Lab', href: '#projects' },
+                { label: 'Connect', href: '#contact' },
               ].map((item) => (
                 <a
                   key={item.href}
@@ -338,426 +713,1103 @@ export default function App() {
                 </a>
               ))}
             </div>
-            <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center gap-4">
+            <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <a
                 href="https://github.com/stevenfowler16"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-[#c561f6]"
+                className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300"
               >
                 <Github className="w-4 h-4" /> GitHub
               </a>
-              <a
-                href="mailto:stevenfowler16@gmail.com"
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-[#c561f6]"
+              <button
+                onClick={() => {
+                  setViewLens((prev) => (prev === 'executive' ? 'xray' : 'executive'));
+                  setMobileMenuOpen(false);
+                }}
+                className="px-3 py-1.5 rounded-full font-mono text-xs bg-purple-500/15 text-[#7611a6] dark:text-[#c561f6]"
               >
-                <Mail className="w-4 h-4" /> stevenfowler16@gmail.com
-              </a>
+                Toggle X-Ray Mode ({viewLens === 'xray' ? 'ON' : 'OFF'})
+              </button>
             </div>
           </div>
         )}
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-12 md:py-20 space-y-24 md:space-y-32">
-        {/* Hero Section */}
-        <section
-          id="about"
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center"
-        >
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-purple-500/10 dark:bg-purple-500/15 text-[#7611a6] dark:text-[#c561f6] border border-purple-500/25">
-              <MapPin className="w-3.5 h-3.5" />
-              <span>Charlottesville, Virginia</span>
+      <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-10 md:py-16 space-y-24 md:space-y-28">
+        {/* STAGE 1: ABOVE-THE-FOLD EXECUTIVE HERO + TELEMETRY SNAPSHOT */}
+        <section id="about" className="space-y-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+            {/* Hero Copy (7 cols) */}
+            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+              <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2.5 px-3.5 py-1.5 rounded-full font-mono text-xs font-medium bg-purple-500/10 dark:bg-purple-500/15 text-[#7611a6] dark:text-[#c561f6] border border-purple-500/25">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>DIRECTOR OF ENGINEERING</span>
+                <span className="opacity-40">•</span>
+                <span className="inline-flex items-center gap-1">
+                  <MapPin className="w-3 h-3" /> Charlottesville, VA
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                <p className="font-display font-semibold text-lg sm:text-xl text-[#7611a6] dark:text-[#c561f6] tracking-tight">
+                  Steven Fowler
+                </p>
+                <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-[3.35rem] tracking-[-0.025em] text-[#090b11] dark:text-white leading-[1.07]">
+                  Scaling high-trust engineering teams.{' '}
+                  <span className="bg-gradient-to-r from-[#c561f6] via-[#9d4edd] to-[#7611a6] bg-clip-text text-transparent">
+                    Building the systems that make them fast.
+                  </span>
+                </h1>
+              </div>
+
+              <p className="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-[#a3acc8] max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                I lead multi-team engineering organizations, align technical architecture
+                with executive strategy, and stay hands-on shipping commercial Azure DevOps
+                governance suites, enterprise <code className="font-mono text-sm text-[#7611a6] dark:text-[#c561f6]">.NET</code> systems, and edge-native platforms.
+              </p>
+
+              {/* Interactive Focus Jump Pills */}
+              <div className="flex flex-wrap justify-center lg:justify-start gap-2 pt-1">
+                <a
+                  href="#leadership"
+                  onClick={() => setActivePillarId('org-scale')}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-[#7611a6] text-white shadow-sm shadow-[#7611a6]/30 hover:opacity-95 transition-opacity"
+                >
+                  <Users className="w-3.5 h-3.5" /> Org Scale &amp; Culture
+                </a>
+                <a
+                  href="#leadership"
+                  onClick={() => setActivePillarId('diagnostics')}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium surface-card text-slate-700 dark:text-slate-200 hover:border-[#c561f6]/50 transition-colors"
+                >
+                  <BarChart3 className="w-3.5 h-3.5 text-[#c561f6]" /> DORA &amp; SPACE Diagnostics
+                </a>
+                <a
+                  href="#leadership"
+                  onClick={() => setActivePillarId('governance')}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium surface-card text-slate-700 dark:text-slate-200 hover:border-[#c561f6]/50 transition-colors"
+                >
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#c561f6]" /> Automated Governance
+                </a>
+                <a
+                  href="#leadership"
+                  onClick={() => setActivePillarId('architecture')}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium surface-card text-slate-700 dark:text-slate-200 hover:border-[#c561f6]/50 transition-colors"
+                >
+                  <Code2 className="w-3.5 h-3.5 text-[#c561f6]" /> Hands-On Architecture
+                </a>
+              </div>
+
+              {/* Hero CTAs */}
+              <div className="flex flex-wrap justify-center lg:justify-start gap-3.5 pt-2">
+                <a
+                  href="#leadership"
+                  className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full font-semibold text-sm sm:text-base text-white bg-gradient-to-r from-[#c561f6] via-[#7611a6] to-[#4c11c6] hover:opacity-95 shadow-lg shadow-[#7611a6]/25 transition-all"
+                >
+                  <span>Explore Operating Playbook</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+                <a
+                  href="#shipwright-spotlight"
+                  className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full font-semibold text-sm sm:text-base text-slate-800 dark:text-white surface-card hover:border-[#c561f6]/50 transition-all"
+                >
+                  <Sparkles className="w-4 h-4 text-[#c561f6]" />
+                  <span>Inspect Shipwright Suite</span>
+                </a>
+              </div>
             </div>
 
-            <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-[#090b11] dark:text-white leading-[1.08]">
-              Hello, my name is{' '}
-              <span className="bg-gradient-to-r from-[#c561f6] via-[#9d4edd] to-[#7611a6] bg-clip-text text-transparent">
-                Steven Fowler
-              </span>
-            </h1>
-
-            <p className="text-lg sm:text-xl text-slate-600 dark:text-[#a3acc8] max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              I am a <strong className="font-semibold text-[#090b11] dark:text-white">Director of Engineering</strong> based
-              in Charlottesville, Virginia — scaling high-trust engineering organizations,
-              aligning technical architecture with business strategy, and staying hands-on
-              building commercial developer tools and edge-native platforms.
-            </p>
-
-            {/* Role Pills */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-2.5 pt-1">
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-[#7611a6] text-white shadow-sm shadow-[#7611a6]/30">
-                <Briefcase className="w-4 h-4" /> Director of Engineering
-              </span>
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-[#141925] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800">
-                <Users className="w-4 h-4 text-[#c561f6]" /> Org Scale &amp; Culture
-              </span>
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-[#141925] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800">
-                <Compass className="w-4 h-4 text-[#c561f6]" /> Technical Strategy
-              </span>
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium bg-white dark:bg-[#141925] text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800">
-                <Code2 className="w-4 h-4 text-[#c561f6]" /> Hands-On Builder (.NET &amp; TypeScript)
-              </span>
-            </div>
-
-            {/* Hero Actions */}
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-3">
-              <a
-                href="#leadership"
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full font-medium text-white bg-gradient-to-r from-[#c561f6] via-[#7611a6] to-[#4c11c6] hover:opacity-95 shadow-lg shadow-[#7611a6]/25 transition-all"
-              >
-                <span>Leadership &amp; Architecture</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </a>
-              <a
-                href="mailto:stevenfowler16@gmail.com"
-                className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full font-medium text-slate-800 dark:text-white bg-white/90 dark:bg-[#141925]/90 hover:bg-slate-100 dark:hover:bg-[#1f2637] border border-slate-200 dark:border-slate-800 transition-colors"
-              >
-                <Mail className="w-4 h-4 text-[#c561f6]" />
-                <span>Get in Touch</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Portrait Column */}
-          <div className="lg:col-span-5 flex justify-center">
-            <div className="relative group max-w-md w-full">
-              <div
-                aria-hidden="true"
-                className="absolute -inset-2 rounded-[2rem] bg-gradient-to-tr from-[#c561f6]/40 via-[#7611a6]/30 to-[#4c11c6]/40 blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-500"
-              />
-              <div className="relative rounded-[1.75rem] overflow-hidden border border-white/40 dark:border-slate-700/70 bg-[#141925] shadow-2xl">
-                <img
-                  src="/assets/portrait.jpg"
-                  alt="Steven Fowler portrait picture"
-                  width={600}
-                  height={400}
-                  className="w-full h-auto object-cover aspect-[4/3] sm:aspect-[5/4] transform group-hover:scale-[1.02] transition-transform duration-500"
+            {/* Editorial Executive Dossier Card (5 cols) */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+              <div className="relative group max-w-[390px] w-full">
+                <div
+                  aria-hidden="true"
+                  className="absolute -inset-2 rounded-[2rem] bg-gradient-to-tr from-[#c561f6]/35 via-[#7611a6]/25 to-[#4c11c6]/35 blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#090b11]/65 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between px-4 py-2.5 rounded-2xl bg-[#090b11]/75 backdrop-blur-md border border-white/15 text-white text-xs sm:text-sm">
-                  <span className="font-medium">Steven Fowler</span>
-                  <span className="text-[#c561f6] font-medium">Director of Engineering</span>
+                <div className="relative rounded-3xl p-3 surface-card">
+                  <div className="relative aspect-[4/3.55] overflow-hidden rounded-2xl bg-[#141925] ring-1 ring-slate-900/10 dark:ring-white/10">
+                    <img
+                      src="/assets/portrait.jpg"
+                      alt="Steven Fowler — Director of Engineering"
+                      width={600}
+                      height={400}
+                      className="w-full h-full object-cover object-top scale-[1.04] group-hover:scale-[1.07] transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#090b11]/80 via-transparent to-[#7611a6]/10" />
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#090b11]/80 backdrop-blur-md border border-white/15 text-white">
+                      <div>
+                        <div className="text-xs font-semibold leading-tight">
+                          Steven Fowler
+                        </div>
+                        <div className="font-mono text-[10px] text-[#c561f6]">
+                          Director of Engineering
+                        </div>
+                      </div>
+                      <a
+                        href="https://shipwrighthq.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-mono text-[10px] px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-colors inline-flex items-center gap-1"
+                      >
+                        <span>shipwrighthq.com</span>
+                        <ArrowUpRight className="w-3 h-3 text-[#c561f6]" />
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Executive Dossier Telemetry Strip */}
+                  <div className="grid grid-cols-3 divide-x divide-slate-200/80 dark:divide-white/[0.08] pt-3 pb-1 text-center">
+                    <div className="px-2">
+                      <div className="font-mono text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                        Mandate
+                      </div>
+                      <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5">
+                        Multi-Team Scale
+                      </div>
+                    </div>
+                    <div className="px-2">
+                      <div className="font-mono text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                        Core Stack
+                      </div>
+                      <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5">
+                        .NET · TS · Edge
+                      </div>
+                    </div>
+                    <div className="px-2">
+                      <div className="font-mono text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                        Lab Output
+                      </div>
+                      <div className="text-xs font-semibold text-[#7611a6] dark:text-[#c561f6] mt-0.5">
+                        6 Live Systems
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* 4-Metric Executive Impact & Operating Strip (Above/Near the Fold) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+            {[
+              {
+                code: '01 / ORG SCALE',
+                title: 'Organizational Leadership',
+                metric: 'High-Trust Execution',
+                desc: 'Developing engineering managers & staff ICs, reducing cognitive load, and aligning multi-quarter delivery.',
+                icon: Trophy,
+              },
+              {
+                code: '02 / DEVOPS & DORA',
+                title: 'Creator of Shipwright',
+                metric: '4 Commercial ADO Extensions',
+                desc: 'Author of EngPulse (DORA+SPACE), PolicyGuard (SOC2), EnvMatrix, and MermaidScope at shipwrighthq.com.',
+                icon: BarChart3,
+              },
+              {
+                code: '03 / ENTERPRISE & EDGE',
+                title: 'Hands-On Architecture',
+                metric: '.NET · TypeScript · Python',
+                desc: 'Pragmatic strangler-fig .NET modernization paired with Cloudflare Workers, Supabase, and Web Crypto.',
+                icon: Layers,
+              },
+              {
+                code: '04 / SECURITY BY DESIGN',
+                title: 'Zero-Egress Governance',
+                metric: 'Automated Guardrails',
+                desc: '100% client-side enterprise extension architecture & continuous branch/secret compliance over manual CABs.',
+                icon: ShieldCheck,
+              },
+            ].map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.code}
+                  className="rounded-2xl p-5 surface-card-interactive flex flex-col justify-between space-y-3"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[11px] font-semibold tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                      {item.code}
+                    </span>
+                    <Icon className="w-4 h-4 text-[#7611a6] dark:text-[#c561f6]" />
+                  </div>
+                  <div>
+                    <div className="font-display font-bold text-base text-[#090b11] dark:text-white">
+                      {item.title}
+                    </div>
+                    <div className="font-mono text-xs font-medium text-emerald-600 dark:text-emerald-400 mt-0.5">
+                      {item.metric}
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-600 dark:text-[#a3acc8] leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </section>
 
-        {/* Three Core Pillars Section */}
-        <section id="pillars" className="space-y-8">
-          <div className="rounded-3xl p-8 sm:p-10 lg:p-12 bg-white/85 dark:bg-[#141925]/75 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800/90 shadow-xl">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12 divide-y md:divide-y-0 md:divide-x divide-slate-200/80 dark:divide-slate-800/80">
-              {/* Pillar 1 */}
-              <div className="space-y-3 pt-2 md:pt-0">
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-br from-[#c561f6]/20 to-[#7611a6]/20 border border-[#c561f6]/30 text-[#7611a6] dark:text-[#c561f6]">
-                  <Trophy className="w-6 h-6" />
-                </div>
-                <h2 className="font-display font-semibold text-2xl text-[#090b11] dark:text-white">
-                  Organizational Leadership
-                </h2>
-                <p className="text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                  Building high-trust engineering cultures where managers and individual
-                  contributors have clear ownership, low cognitive load, and strong
-                  operational guardrails to do their best work.
-                </p>
+        {/* STAGE 2: INTERACTIVE "DIRECTOR'S OPERATING SYSTEM" CONSOLE */}
+        <section id="leadership" className="space-y-8 scroll-mt-24">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div className="space-y-2 max-w-2xl">
+              <div className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#7611a6] dark:text-[#c561f6]">
+                <Briefcase className="w-3.5 h-3.5" />
+                <span>Interactive Leadership Playbook</span>
               </div>
-
-              {/* Pillar 2 */}
-              <div className="space-y-3 pt-8 md:pt-0 md:pl-10">
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-br from-[#c561f6]/20 to-[#7611a6]/20 border border-[#c561f6]/30 text-[#7611a6] dark:text-[#c561f6]">
-                  <Compass className="w-6 h-6" />
-                </div>
-                <h2 className="font-display font-semibold text-2xl text-[#090b11] dark:text-white">
-                  Executive &amp; Product Strategy
-                </h2>
-                <p className="text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                  Partnering across executive and product leadership to translate business
-                  goals into durable multi-quarter roadmaps, predictable delivery, and
-                  healthy cloud unit economics.
-                </p>
-              </div>
-
-              {/* Pillar 3 */}
-              <div className="space-y-3 pt-8 md:pt-0 md:pl-10">
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-br from-[#c561f6]/20 to-[#7611a6]/20 border border-[#c561f6]/30 text-[#7611a6] dark:text-[#c561f6]">
-                  <Terminal className="w-6 h-6" />
-                </div>
-                <h2 className="font-display font-semibold text-2xl text-[#090b11] dark:text-white">
-                  Hands-On Architecture
-                </h2>
-                <p className="text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                  Deeply rooted in .NET, TypeScript, and modern cloud/edge stacks — staying
-                  close enough to the code to set pragmatic architectural standards and
-                  actively ship software.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Engineering Leadership & Operating Philosophy Section */}
-        <section id="leadership" className="space-y-8">
-          <div className="space-y-3 max-w-3xl">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
-              <ShieldCheck className="w-4 h-4" />
-              <span>How I Scale Teams &amp; Systems</span>
-            </div>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#090b11] dark:text-white">
-              Engineering Leadership Philosophy
-            </h2>
-            <p className="text-slate-600 dark:text-[#a3acc8] text-base sm:text-lg">
-              As a Director of Engineering, my focus is multiplying the effectiveness of
-              every team I lead—combining healthy delivery diagnostics, automated
-              governance, and pragmatic system design.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
-                <CheckCircle2 className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
-                Automated Guardrails Over Manual Gatekeeping
-              </h3>
-              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                High-performing organizations don’t scale through heavyweight change
-                advisory boards. By automating branch policy compliance, environment drift
-                detection, and blast-radius analysis in CI/CD, teams move fast with built-in
-                safety and auditability.
-              </p>
-            </div>
-
-            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
-                <BarChart3 className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
-                Diagnostic Engineering Health (DORA + SPACE)
-              </h3>
-              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                Engineering metrics should illuminate systemic friction—such as PR pickup
-                delays, review queue bottlenecks, or sprint scope spillover—to help leaders
-                remove obstacles and protect developer flow, never to gamify individual output.
-              </p>
-            </div>
-
-            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
-                <Layers className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
-                Pragmatic, Constraint-Driven Architecture
-              </h3>
-              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                Whether modernizing legacy enterprise .NET estates via incremental
-                strangler-fig boundaries or designing zero-egress edge applications,
-                architecture must serve maintainability, security compliance, and business
-                ROI.
-              </p>
-            </div>
-
-            <div className="rounded-3xl p-7 bg-white/85 dark:bg-[#141925]/75 border border-slate-200/90 dark:border-slate-800/90 shadow-lg space-y-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6]">
-                <Cpu className="w-5 h-5" />
-              </div>
-              <h3 className="font-display font-semibold text-xl text-[#090b11] dark:text-white">
-                Leaders Who Still Build
-              </h3>
-              <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
-                Staying hands-on with modern cloud runtimes, AI-assisted workflows, and
-                developer tooling sharpens architectural judgment and builds authentic
-                credibility with the engineers and managers I lead.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Selected Projects Section */}
-        <section id="projects" className="space-y-10">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-            <div className="space-y-3 max-w-2xl">
-              <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
-                <Sparkles className="w-4 h-4" />
-                <span>Hands-On Engineering &amp; Product Lab</span>
-              </div>
-              <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#090b11] dark:text-white">
-                Systems &amp; Products I’ve Built
+              <h2 className="font-display font-bold text-3xl sm:text-4xl tracking-tight text-[#090b11] dark:text-white">
+                The Director’s Operating System
               </h2>
-              <p className="text-slate-600 dark:text-[#a3acc8] text-base sm:text-lg">
-                Alongside leading engineering teams, I actively design and ship commercial
-                DevOps governance tools, edge platforms, and interactive web applications.
+              <p className="text-slate-600 dark:text-[#a3acc8] text-sm sm:text-base">
+                Select any operating pillar below to inspect how I diagnose organizational
+                friction, design guardrails, and scale engineering teams.
               </p>
             </div>
+            <div className="font-mono text-xs text-slate-500 dark:text-slate-400">
+              Click a mode to inspect playbook →
+            </div>
+          </div>
 
-            {/* Category Filter Pills */}
-            <div className="flex flex-wrap gap-2">
-              {CATEGORIES.map((category) => {
-                const active = activeCategory === category;
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            {/* Left Selector Column (5 cols) */}
+            <div className="lg:col-span-5 flex flex-col justify-between gap-3">
+              {OPERATING_PILLARS.map((pillar) => {
+                const isSelected = pillar.id === activePillar.id;
                 return (
                   <button
-                    key={category}
-                    onClick={() => setActiveCategory(category)}
-                    className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer ${
-                      active
-                        ? 'bg-[#7611a6] text-white shadow-md shadow-[#7611a6]/25'
-                        : 'bg-white/80 dark:bg-[#141925]/80 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-[#c561f6]/50'
+                    key={pillar.id}
+                    onClick={() => setActivePillarId(pillar.id)}
+                    className={`w-full text-left rounded-2xl p-5 transition-all cursor-pointer border ${
+                      isSelected
+                        ? 'bg-gradient-to-r from-[#7611a6]/15 via-[#c561f6]/10 to-transparent dark:from-[#7611a6]/30 dark:via-[#c561f6]/15 dark:to-[#0f131d] border-[#7611a6] dark:border-[#c561f6] shadow-lg shadow-[#7611a6]/10'
+                        : 'surface-card hover:border-[#c561f6]/40'
                     }`}
                   >
-                    {category}
+                    <div className="flex items-center justify-between gap-2">
+                      <span
+                        className={`font-mono text-[11px] font-semibold tracking-wider ${
+                          isSelected
+                            ? 'text-[#7611a6] dark:text-[#c561f6]'
+                            : 'text-slate-400 dark:text-slate-500'
+                        }`}
+                      >
+                        {pillar.code}
+                      </span>
+                      <span
+                        className={`w-2 h-2 rounded-full transition-colors ${
+                          isSelected
+                            ? 'bg-[#c561f6] shadow-[0_0_8px_#c561f6]'
+                            : 'bg-slate-300 dark:bg-slate-700'
+                        }`}
+                      />
+                    </div>
+                    <div className="font-display font-bold text-base sm:text-lg text-[#090b11] dark:text-white mt-1">
+                      {pillar.label}
+                    </div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                      {pillar.subtitle}
+                    </div>
                   </button>
                 );
               })}
             </div>
-          </div>
 
-          {/* Project Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {filteredProjects.map((project) => (
-              <article
-                key={project.id}
-                className="group relative flex flex-col justify-between rounded-3xl p-7 sm:p-8 bg-white/90 dark:bg-[#141925]/80 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800/90 hover:border-[#c561f6]/60 dark:hover:border-[#c561f6]/50 shadow-lg hover:shadow-2xl transition-all duration-300"
-              >
-                <div>
-                  {/* Top Gradient Accent Bar */}
-                  <div
-                    className={`h-1.5 w-20 rounded-full bg-gradient-to-r ${project.accentGradient} mb-6`}
-                  />
-
-                  <div className="space-y-4">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <span className="text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
-                          {project.category}
-                        </span>
-                        <h3 className="font-display font-bold text-2xl text-[#090b11] dark:text-white mt-1">
-                          {project.title}
-                        </h3>
-                        <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                          {project.subtitle}
-                        </p>
-                      </div>
-                      <span className="shrink-0 px-3 py-1 rounded-full text-xs font-medium bg-purple-500/10 dark:bg-purple-500/15 text-[#7611a6] dark:text-[#c561f6] border border-purple-500/20">
-                        {project.badgeText}
-                      </span>
-                    </div>
-
-                    <p className="text-slate-600 dark:text-[#a3acc8] text-sm sm:text-base leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    {/* Architectural Decision Callout */}
-                    <div className="rounded-2xl p-4 bg-slate-100/80 dark:bg-[#090b11]/60 border border-slate-200/80 dark:border-slate-800/90 space-y-1">
-                      <div className="text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
-                        Architectural Thesis
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                        {project.architecturalThesis}
-                      </p>
-                    </div>
-
-                    {/* Key Highlights */}
-                    <ul className="space-y-2 pt-1">
-                      {project.highlights.map((item, idx) => (
-                        <li
-                          key={idx}
-                          className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300"
-                        >
-                          <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#c561f6] shrink-0" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+            {/* Right Live Inspection Console (7 cols) */}
+            <div className="lg:col-span-7 rounded-3xl p-7 sm:p-8 surface-card flex flex-col justify-between space-y-6">
+              <div className="space-y-5">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 dark:border-white/[0.08] pb-4">
+                  <div>
+                    <span className="font-mono text-xs font-semibold text-[#7611a6] dark:text-[#c561f6]">
+                      {activePillar.code} // ACTIVE PLAYBOOK
+                    </span>
+                    <h3 className="font-display font-bold text-2xl text-[#090b11] dark:text-white mt-1">
+                      {activePillar.title}
+                    </h3>
                   </div>
                 </div>
 
-                {/* Tags & Action Links */}
-                <div className="pt-6 mt-6 border-t border-slate-200/80 dark:border-slate-800/80 space-y-4">
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
+                <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] leading-relaxed">
+                  {activePillar.thesis}
+                </p>
+
+                {/* Anti-Pattern vs. Operating Standard Matrix */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="rounded-2xl p-4 bg-rose-500/[0.06] dark:bg-rose-500/[0.08] border border-rose-500/20 space-y-1.5">
+                    <div className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+                      <ShieldAlert className="w-3.5 h-3.5" />
+                      <span>Industry Anti-Pattern Avoided</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                      {activePillar.antiPattern}
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl p-4 bg-emerald-500/[0.06] dark:bg-emerald-500/[0.08] border border-emerald-500/20 space-y-1.5">
+                    <div className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>My Operating Standard</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                      {activePillar.operatingStandard}
+                    </p>
+                  </div>
+                </div>
+
+                {/* 3 Telemetry Signals */}
+                <div className="space-y-2">
+                  <div className="font-mono text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                    Key Operational Signals &amp; Guardrails
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {activePillar.signals.map((sig) => (
+                      <div
+                        key={sig.metric}
+                        className="rounded-xl p-3.5 surface-well space-y-1"
+                      >
+                        <div className="font-mono text-[11px] text-slate-500 dark:text-slate-400">
+                          {sig.metric}
+                        </div>
+                        <div className="font-display font-semibold text-sm text-[#7611a6] dark:text-[#c561f6]">
+                          {sig.target}
+                        </div>
+                        <div className="text-[11px] text-slate-600 dark:text-slate-400 leading-snug">
+                          {sig.context}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-slate-200/80 dark:border-white/[0.08] flex items-center justify-between">
+                <span className="font-mono text-xs text-slate-500 dark:text-slate-400">
+                  Backed by production software
+                </span>
+                <a
+                  href={activePillar.proofHref}
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#7611a6] dark:text-[#c561f6] hover:underline"
+                >
+                  <span>{activePillar.proofLabel}</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* STAGE 3: ASYMMETRIC BENTO SHOWCASE + GLOBAL LENS TOGGLE */}
+        <section id="projects" className="space-y-10 scroll-mt-24">
+          {/* Section Header + Global Lens Segmented Control */}
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+            <div className="space-y-2 max-w-2xl">
+              <div className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#7611a6] dark:text-[#c561f6]">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Hands-On Engineering &amp; Product Lab</span>
+              </div>
+              <h2 className="font-display font-bold text-3xl sm:text-4xl tracking-tight text-[#090b11] dark:text-white">
+                Systems &amp; Products I’ve Built
+              </h2>
+              <p className="text-slate-600 dark:text-[#a3acc8] text-sm sm:text-base">
+                Switch between the <strong>Executive &amp; Product ROI</strong> view and the{' '}
+                <strong>Architecture X-Ray</strong> view to inspect system topologies and
+                design trade-offs.
+              </p>
+            </div>
+
+            {/* Global Segmented Lens Toggle */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+              <div className="inline-flex p-1 rounded-2xl surface-card">
+                <button
+                  onClick={() => setViewLens('executive')}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                    viewLens === 'executive'
+                      ? 'bg-[#7611a6] text-white shadow-sm'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6]'
+                  }`}
+                >
+                  <Briefcase className="w-3.5 h-3.5" />
+                  <span>Executive &amp; Product ROI</span>
+                </button>
+                <button
+                  onClick={() => setViewLens('xray')}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                    viewLens === 'xray'
+                      ? 'bg-[#7611a6] text-white shadow-sm'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6]'
+                  }`}
+                >
+                  <Cpu className="w-3.5 h-3.5" />
+                  <span>Architecture X-Ray</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* ROW 1: 12-COLUMN FLAGSHIP SPOTLIGHT — SHIPWRIGHT */}
+          <article
+            id="shipwright-spotlight"
+            className="rounded-3xl p-7 sm:p-9 surface-card-interactive relative overflow-hidden scroll-mt-24"
+          >
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-bl from-[#c561f6]/20 via-[#7611a6]/10 to-transparent blur-3xl rounded-full"
+            />
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
+              {/* Left 7 Cols: Narrative & Lens View */}
+              <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
+                <div className="space-y-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                      <Sparkles className="w-3.5 h-3.5" /> Flagship Commercial Suite · SaaS &amp; DevTools
+                    </span>
+                    <span className="font-mono text-xs px-3 py-1 rounded-full bg-purple-500/10 dark:bg-purple-500/20 text-[#7611a6] dark:text-[#c561f6] border border-purple-500/25">
+                      shipwrighthq.com
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="font-display font-bold text-2xl sm:text-3xl text-[#090b11] dark:text-white">
+                      Shipwright — Azure DevOps Engineering Intelligence &amp; Governance
+                    </h3>
+                    <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] mt-2 leading-relaxed">
+                      Built directly from the visibility and compliance challenges of leading
+                      multi-team engineering organizations: a monorepo of four standalone
+                      Azure DevOps extensions (<strong>EngPulse</strong>,{' '}
+                      <strong>PolicyGuard</strong>, <strong>EnvMatrix</strong>, and{' '}
+                      <strong>MermaidScope</strong>).
+                    </p>
+                  </div>
+
+                  {viewLens === 'executive' ? (
+                    <div className="space-y-4">
+                      <div className="rounded-2xl p-4 surface-well space-y-1.5">
+                        <div className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                          Executive &amp; Commercial Thesis
+                        </div>
+                        <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                          Enterprise security teams routinely block third-party engineering
+                          analytics platforms that exfiltrate source code or pipeline
+                          metadata. By executing 100% client-side inside the Azure DevOps
+                          iframe with an offline Web Crypto BYOL licensing engine, Shipwright
+                          eliminates security review friction and runs at{' '}
+                          <strong className="text-[#090b11] dark:text-white">
+                            $0/month cloud hosting overhead
+                          </strong>
+                          .
+                        </p>
+                      </div>
+
+                      <ul className="space-y-2">
+                        {[
+                          'EngPulse: Executive DORA & SPACE scorecards, PR stage breakdown, and reviewer queue load balancing',
+                          'PolicyGuard: Cross-repository branch policy matrix, 1-click drift remediation, and SOC2 evidence exports',
+                          'EnvMatrix: Multi-environment Variable Group diffing, unmasked secret detection, and pipeline blast-radius scanning',
+                        ].map((bullet) => (
+                          <li
+                            key={bullet}
+                            className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300"
+                          >
+                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#c561f6] shrink-0" />
+                            <span>{bullet}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <div className="rounded-2xl p-5 surface-well font-mono text-xs space-y-3 border border-[#c561f6]/30">
+                      <div className="flex items-center justify-between text-[#7611a6] dark:text-[#c561f6] font-semibold">
+                        <span>// ARCHITECTURE X-RAY: SHIPWRIGHT MONOREPO</span>
+                        <span>ZERO-EGRESS</span>
+                      </div>
+                      <div className="space-y-2 text-slate-700 dark:text-slate-300">
+                        <div>
+                          <span className="text-slate-400">TOPOLOGY: </span>
+                          ADO Host Iframe → ADO REST SDK → Client-Side Analytics Engine →
+                          IndexedDB Cache
+                        </div>
+                        <div>
+                          <span className="text-slate-400">LICENSING: </span>
+                          Two-Tier Offline BYOL (Team ≤25 Devs / Enterprise Unlimited) verified
+                          via asymmetric Web Crypto signatures
+                        </div>
+                        <div>
+                          <span className="text-slate-400">SECURITY BOUNDARY: </span>
+                          0 external network requests; inherits user’s native Azure DevOps RBAC
+                          token scope
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Tags & Primary CTA */}
+                <div className="pt-5 border-t border-slate-200/80 dark:border-white/[0.08] flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex flex-wrap gap-1.5">
+                    {[
+                      'DORA & SPACE',
+                      'SOC2 Governance',
+                      'TypeScript',
+                      'React',
+                      'Azure DevOps SDK',
+                      'Web Crypto BYOL',
+                    ].map((tag) => (
                       <span
                         key={tag}
-                        className="px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 dark:bg-[#090b11]/70 text-slate-700 dark:text-slate-300 border border-slate-200/70 dark:border-slate-800"
+                        className="font-mono text-[11px] px-2.5 py-1 rounded-md surface-well text-slate-700 dark:text-slate-300"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  <div className="flex items-center gap-4 pt-1">
-                    {project.liveUrl && (
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#7611a6] dark:text-[#c561f6] hover:underline"
-                      >
-                        <span>Visit Live Site</span>
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    )}
-                    {project.repoUrl && (
-                      <a
-                        href={project.repoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6]"
-                      >
-                        <FolderGit2 className="w-4 h-4" />
-                        <span>View on GitHub</span>
-                      </a>
-                    )}
-                    {!project.liveUrl && !project.repoUrl && (
-                      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-                        <Lock className="w-3.5 h-3.5 text-[#c561f6]" />
-                        <span>Private Production Repository</span>
+                  <a
+                    href="https://shipwrighthq.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-[#c561f6] via-[#7611a6] to-[#4c11c6] hover:opacity-95 shadow-md shadow-[#7611a6]/25 transition-all"
+                  >
+                    <span>Launch shipwrighthq.com</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Right 5 Cols: Interactive 4-Extension Sandbox */}
+              <div className="lg:col-span-5 rounded-2xl p-5 surface-well flex flex-col justify-between space-y-5 border border-slate-200/90 dark:border-white/[0.08]">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                      Interactive Suite Inspector
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 font-mono text-[10px] text-emerald-600 dark:text-emerald-400">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      0 Bytes External Egress
+                    </span>
+                  </div>
+
+                  {/* Module Tabs */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-1.5">
+                    {SHIPWRIGHT_MODULES.map((mod) => {
+                      const active = mod.id === activeShipwright.id;
+                      return (
+                        <button
+                          key={mod.id}
+                          onClick={() => setActiveShipwrightId(mod.id)}
+                          className={`px-3 py-2 rounded-xl font-mono text-xs font-medium text-left transition-all cursor-pointer border ${
+                            active
+                              ? 'bg-[#7611a6] text-white border-[#c561f6]/40 shadow-sm'
+                              : 'bg-white/70 dark:bg-[#0f131d] text-slate-600 dark:text-slate-300 border-slate-200/70 dark:border-white/[0.06] hover:border-[#c561f6]/40'
+                          }`}
+                        >
+                          {mod.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Selected Module Telemetry Header */}
+                  <div className="space-y-1 pt-1">
+                    <div className="flex items-center justify-between">
+                      <span className="font-display font-bold text-base text-[#090b11] dark:text-white">
+                        {activeShipwright.name}
                       </span>
-                    )}
+                      <span className="font-mono text-[10px] text-[#7611a6] dark:text-[#c561f6]">
+                        {activeShipwright.hub}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                      {activeShipwright.summary}
+                    </p>
+                  </div>
+
+                  {/* 3 Mini Metric Pills */}
+                  <div className="grid grid-cols-3 gap-2">
+                    {activeShipwright.metrics.map((m) => (
+                      <div
+                        key={m.label}
+                        className="rounded-xl p-2.5 bg-white/80 dark:bg-[#0f131d] border border-slate-200/70 dark:border-white/[0.06]"
+                      >
+                        <div className="font-mono text-[10px] text-slate-400 truncate">
+                          {m.label}
+                        </div>
+                        <div className="font-mono font-semibold text-xs text-[#090b11] dark:text-white mt-0.5">
+                          {m.value}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Simulated Live Telemetry Rows */}
+                  <div className="space-y-2">
+                    {activeShipwright.telemetryRows.map((row) => (
+                      <div
+                        key={row.left}
+                        className="rounded-xl px-3 py-2.5 bg-white/80 dark:bg-[#0f131d] border border-slate-200/70 dark:border-white/[0.06] flex items-center justify-between gap-2"
+                      >
+                        <div className="min-w-0">
+                          <div className="font-mono text-[11px] font-medium text-[#090b11] dark:text-slate-200 truncate">
+                            {row.left}
+                          </div>
+                          <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                            {row.middle} · {row.right}
+                          </div>
+                        </div>
+                        <span className="shrink-0 font-mono text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                          {row.pill}
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </article>
-            ))}
+
+                <div className="font-mono text-[10px] text-slate-400 dark:text-slate-500 flex items-center justify-between pt-2 border-t border-slate-200/70 dark:border-white/[0.06]">
+                  <span>ADO Host Frame Simulation</span>
+                  <span>Team &amp; Enterprise BYOL</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          {/* ROW 2: 6-COL + 6-COL FEATURED INTERACTIVE BENTO (RAFTERS & CALLSHEET) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* Rafters Card (6 cols) */}
+            <article className="lg:col-span-6 rounded-3xl p-7 sm:p-8 surface-card-interactive flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                    Edge Platforms &amp; Quantitative Data
+                  </span>
+                  <span className="font-mono text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    raftersfantasy.com
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="font-display font-bold text-2xl text-[#090b11] dark:text-white">
+                    Rafters — Multi-Decade Sports Intelligence &amp; Discord Engine
+                  </h3>
+                  <p className="text-sm text-slate-600 dark:text-[#a3acc8] mt-1.5 leading-relaxed">
+                    Reconstructs 15+ years of longitudinal ESPN league history, models All-Play
+                    Expected Win variance ("Luck Index") and point spreads, and powers an
+                    automated Discord bot with 5 switchable analytical personas.
+                  </p>
+                </div>
+
+                {viewLens === 'executive' ? (
+                  <div className="rounded-2xl p-4 surface-well space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                        Interactive Persona Dispatch Preview
+                      </span>
+                      <Radio className="w-3.5 h-3.5 text-emerald-400" />
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {RAFTERS_PERSONAS.map((persona, idx) => (
+                        <button
+                          key={persona.id}
+                          onClick={() => setActiveRaftersPersona(idx)}
+                          className={`px-2.5 py-1 rounded-lg font-mono text-[11px] transition-all cursor-pointer border ${
+                            activeRaftersPersona === idx
+                              ? 'bg-[#7611a6] text-white border-[#c561f6]/40'
+                              : 'bg-white/80 dark:bg-[#0f131d] text-slate-600 dark:text-slate-300 border-slate-200/70 dark:border-white/[0.06]'
+                          }`}
+                        >
+                          {persona.label}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="rounded-xl p-3 bg-white/85 dark:bg-[#0f131d] border border-slate-200/70 dark:border-white/[0.06] space-y-1">
+                      <div className="font-mono text-[10px] text-emerald-600 dark:text-emerald-400">
+                        {RAFTERS_PERSONAS[activeRaftersPersona].tone}
+                      </div>
+                      <p className="text-xs italic text-slate-700 dark:text-slate-300 leading-relaxed">
+                        {RAFTERS_PERSONAS[activeRaftersPersona].sample}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="rounded-2xl p-4 surface-well font-mono text-xs space-y-2 border border-[#c561f6]/30">
+                    <div className="text-[#7611a6] dark:text-[#c561f6] font-semibold">
+                      // ARCHITECTURE X-RAY: RAFTERS
+                    </div>
+                    <div className="text-slate-700 dark:text-slate-300">
+                      <span className="text-slate-400">RUNTIME: </span>
+                      Cloudflare Python Workers (<code className="text-[#c561f6]">python_workers</code>) +
+                      Discord Slash Command Engine + Stripe Billing
+                    </div>
+                    <div className="text-slate-700 dark:text-slate-300">
+                      <span className="text-slate-400">DATA LAYER: </span>
+                      15-year longitudinal ESPN API normalizer + isolated Supabase{' '}
+                      <code className="text-[#c561f6]">rafters</code> schema with encrypted credential vault
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="pt-4 border-t border-slate-200/80 dark:border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
+                <div className="flex flex-wrap gap-1.5">
+                  {['Python Workers', 'Supabase', 'Discord API', 'Stripe', 'Statistical Modeling'].map(
+                    (tag) => (
+                      <span
+                        key={tag}
+                        className="font-mono text-[11px] px-2.5 py-1 rounded-md surface-well text-slate-700 dark:text-slate-300"
+                      >
+                        {tag}
+                      </span>
+                    )
+                  )}
+                </div>
+                <a
+                  href="https://raftersfantasy.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#7611a6] dark:text-[#c561f6] hover:underline"
+                >
+                  <span>Visit raftersfantasy.com</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </article>
+
+            {/* The Callsheet Card (6 cols) */}
+            <article className="lg:col-span-6 rounded-3xl p-7 sm:p-8 surface-card-interactive flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                    Interactive Consumer Web App
+                  </span>
+                  <span className="font-mono text-xs px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                    callsheet.quest
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="font-display font-bold text-2xl text-[#090b11] dark:text-white">
+                    The Callsheet — Daily Cinema Dispatch &amp; Film Club
+                  </h3>
+                  <p className="text-sm text-slate-600 dark:text-[#a3acc8] mt-1.5 leading-relaxed">
+                    A cinephile daily deduction habit featuring a 7-day rotating puzzle
+                    mechanic, private workplace film leagues, 27 collectible movie prop
+                    badges, and resident studio lot supervisor Otto the Cat.
+                  </p>
+                </div>
+
+                {viewLens === 'executive' ? (
+                  <div className="rounded-2xl p-4 surface-well space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                        Interactive 7-Day Reel Mechanic Preview
+                      </span>
+                      <Film className="w-3.5 h-3.5 text-amber-400" />
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {CALLSHEET_DAYS.map((d, idx) => (
+                        <button
+                          key={d.day}
+                          onClick={() => setActiveCallsheetDay(idx)}
+                          className={`px-2.5 py-1 rounded-lg font-mono text-[11px] transition-all cursor-pointer border ${
+                            activeCallsheetDay === idx
+                              ? 'bg-[#7611a6] text-white border-[#c561f6]/40'
+                              : 'bg-white/80 dark:bg-[#0f131d] text-slate-600 dark:text-slate-300 border-slate-200/70 dark:border-white/[0.06]'
+                          }`}
+                        >
+                          {d.day}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="rounded-xl p-3 bg-white/85 dark:bg-[#0f131d] border border-slate-200/70 dark:border-white/[0.06] space-y-1">
+                      <div className="font-mono text-[10px] text-amber-600 dark:text-amber-400">
+                        {CALLSHEET_DAYS[activeCallsheetDay].mechanic}
+                      </div>
+                      <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                        {CALLSHEET_DAYS[activeCallsheetDay].clue}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="rounded-2xl p-4 surface-well font-mono text-xs space-y-2 border border-[#c561f6]/30">
+                    <div className="text-[#7611a6] dark:text-[#c561f6] font-semibold">
+                      // ARCHITECTURE X-RAY: THE CALLSHEET
+                    </div>
+                    <div className="text-slate-700 dark:text-slate-300">
+                      <span className="text-slate-400">TOPOLOGY: </span>
+                      React 18 + Vite SPA on Cloudflare Workers → Isolated{' '}
+                      <code className="text-[#c561f6]">callsheet</code> Supabase Postgres Schema
+                    </div>
+                    <div className="text-slate-700 dark:text-slate-300">
+                      <span className="text-slate-400">STATE &amp; AUDIO: </span>
+                      Zero-friction guest UUID to OAuth account migration + procedural Web
+                      Audio synthesizer soundtracks
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="pt-4 border-t border-slate-200/80 dark:border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
+                <div className="flex flex-wrap gap-1.5">
+                  {['React 18', 'TypeScript', 'Supabase RLS', 'Web Audio API', 'Cloudflare'].map(
+                    (tag) => (
+                      <span
+                        key={tag}
+                        className="font-mono text-[11px] px-2.5 py-1 rounded-md surface-well text-slate-700 dark:text-slate-300"
+                      >
+                        {tag}
+                      </span>
+                    )
+                  )}
+                </div>
+                <a
+                  href="https://callsheet.quest"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#7611a6] dark:text-[#c561f6] hover:underline"
+                >
+                  <span>Play at callsheet.quest</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </article>
+          </div>
+
+          {/* ROW 3: 3-COLUMN COMPACT ARCHITECTURAL BENTO CARDS */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {COMPACT_PROJECTS.map((project) => {
+              const isExpanded = expandedCompactId === project.id;
+              return (
+                <article
+                  key={project.id}
+                  className="rounded-3xl p-6 surface-card-interactive flex flex-col justify-between space-y-5"
+                >
+                  <div className="space-y-3.5">
+                    <div
+                      className={`h-1 w-14 rounded-full bg-gradient-to-r ${project.accentGradient}`}
+                    />
+
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                        {project.category}
+                      </span>
+                      <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-full bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6] border border-purple-500/20">
+                        {project.badgeText}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="font-display font-bold text-xl text-[#090b11] dark:text-white">
+                        {project.title}
+                      </h3>
+                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">
+                        {project.subtitle}
+                      </p>
+                    </div>
+
+                    {viewLens === 'executive' ? (
+                      <div className="space-y-3">
+                        <p className="text-xs sm:text-sm text-slate-600 dark:text-[#a3acc8] leading-relaxed">
+                          {project.executiveSummary}
+                        </p>
+
+                        {isExpanded && (
+                          <ul className="space-y-1.5 pt-1">
+                            {project.executiveOutcomes.map((item) => (
+                              <li
+                                key={item}
+                                className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300"
+                              >
+                                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#c561f6] shrink-0" />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="rounded-xl p-3.5 surface-well font-mono text-[11px] space-y-2 border border-[#c561f6]/30">
+                        <div>
+                          <span className="text-slate-400">FLOW: </span>
+                          <span className="text-slate-700 dark:text-slate-300">
+                            {project.xrayTopology}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-slate-400">BOUNDARY: </span>
+                          <span className="text-slate-700 dark:text-slate-300">
+                            {project.xrayAuthAndState}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-slate-400">DECISION: </span>
+                          <span className="text-slate-700 dark:text-slate-300">
+                            {project.xrayTradeoff}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="pt-4 border-t border-slate-200/80 dark:border-white/[0.08] space-y-3">
+                    <div className="flex flex-wrap gap-1.5">
+                      {project.tags.slice(0, 4).map((tag) => (
+                        <span
+                          key={tag}
+                          className="font-mono text-[10px] px-2 py-0.5 rounded surface-well text-slate-600 dark:text-slate-300"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between pt-1">
+                      {viewLens === 'executive' ? (
+                        <button
+                          onClick={() =>
+                            setExpandedCompactId(isExpanded ? null : project.id)
+                          }
+                          className="inline-flex items-center gap-1 font-mono text-xs font-medium text-[#7611a6] dark:text-[#c561f6] hover:underline cursor-pointer"
+                        >
+                          <span>{isExpanded ? 'Hide Highlights' : 'Inspect Highlights'}</span>
+                          {isExpanded ? (
+                            <ChevronUp className="w-3.5 h-3.5" />
+                          ) : (
+                            <ChevronDown className="w-3.5 h-3.5" />
+                          )}
+                        </button>
+                      ) : (
+                        <span className="font-mono text-[10px] text-emerald-500">
+                          // X-RAY ACTIVE
+                        </span>
+                      )}
+
+                      {project.repoUrl ? (
+                        <a
+                          href={project.repoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-[#c561f6]"
+                        >
+                          <FolderGit2 className="w-3.5 h-3.5" />
+                          <span>GitHub</span>
+                        </a>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 font-mono text-[10px] text-slate-400">
+                          <Lock className="w-3 h-3 text-[#c561f6]" /> Private Prod
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </section>
 
-        {/* Contact CTA Banner */}
-        <section id="contact">
-          <aside className="relative overflow-hidden rounded-3xl p-8 sm:p-12 bg-gradient-to-br from-white via-purple-50/50 to-indigo-50/40 dark:from-[#141925] dark:via-[#18152c] dark:to-[#0f1320] border border-slate-200/90 dark:border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-            <div className="space-y-2 max-w-xl">
-              <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#090b11] dark:text-white">
-                Interested in connecting?
-              </h2>
-              <p className="text-slate-600 dark:text-[#a3acc8] text-base sm:text-lg">
-                Whether you want to discuss engineering leadership, organizational scale,
-                enterprise architecture, or a product collaboration, I’d love to chat.
-              </p>
-            </div>
+        {/* STAGE 4: INTERACTIVE EXECUTIVE CONTACT CONSOLE */}
+        <section id="contact" className="scroll-mt-24">
+          <aside className="relative overflow-hidden rounded-3xl p-8 sm:p-11 surface-card border border-purple-500/25">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-24 -left-24 w-96 h-96 bg-gradient-to-tr from-[#c561f6]/20 via-[#7611a6]/15 to-transparent blur-3xl rounded-full"
+            />
 
-            <a
-              href="mailto:stevenfowler16@gmail.com"
-              className="shrink-0 inline-flex items-center gap-3 px-7 py-4 rounded-full font-semibold text-white bg-gradient-to-r from-[#c561f6] via-[#7611a6] to-[#4c11c6] hover:opacity-95 shadow-lg shadow-[#7611a6]/30 transition-all"
-            >
-              <span>Send Me a Message</span>
-              <Send className="w-4 h-4" />
-            </a>
+            <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-7 space-y-4">
+                <div className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#7611a6] dark:text-[#c561f6]">
+                  <Activity className="w-3.5 h-3.5" />
+                  <span>Direct Executive &amp; Peer Channel</span>
+                </div>
+                <h2 className="font-display font-bold text-3xl sm:text-4xl text-[#090b11] dark:text-white">
+                  Interested in connecting?
+                </h2>
+                <p className="text-slate-600 dark:text-[#a3acc8] text-sm sm:text-base leading-relaxed max-w-xl">
+                  Select a conversation topic below to pre-fill a direct note, or copy my
+                  email address in one click.
+                </p>
+
+                {/* Selectable Topic Pills */}
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {CONTACT_TOPICS.map((topic) => {
+                    const active = selectedTopic.id === topic.id;
+                    return (
+                      <button
+                        key={topic.id}
+                        onClick={() => setSelectedTopic(topic)}
+                        className={`px-3.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer border ${
+                          active
+                            ? 'bg-[#7611a6] text-white border-[#c561f6]/40 shadow-sm'
+                            : 'surface-well text-slate-600 dark:text-slate-300 hover:border-[#c561f6]/40'
+                        }`}
+                      >
+                        {topic.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3 justify-end">
+                <a
+                  href={`mailto:stevenfowler16@gmail.com?subject=${encodeURIComponent(
+                    selectedTopic.subject
+                  )}`}
+                  className="inline-flex items-center justify-center gap-3 px-7 py-4 rounded-2xl font-semibold text-sm sm:text-base text-white bg-gradient-to-r from-[#c561f6] via-[#7611a6] to-[#4c11c6] hover:opacity-95 shadow-lg shadow-[#7611a6]/30 transition-all"
+                >
+                  <span>Send Email ({selectedTopic.label.split(' ')[0]})</span>
+                  <Send className="w-4 h-4" />
+                </a>
+
+                <button
+                  onClick={handleCopyEmail}
+                  className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl font-mono text-xs sm:text-sm font-medium surface-well text-slate-700 dark:text-slate-200 hover:border-[#c561f6]/50 transition-all cursor-pointer"
+                >
+                  {copiedEmail ? (
+                    <>
+                      <Check className="w-4 h-4 text-emerald-400" />
+                      <span className="text-emerald-600 dark:text-emerald-400">
+                        Copied stevenfowler16@gmail.com!
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4 text-[#c561f6]" />
+                      <span>Copy stevenfowler16@gmail.com</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
           </aside>
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200/70 dark:border-slate-800/80 py-10 px-6 text-sm text-slate-500 dark:text-[#8490b5]">
+      <footer className="border-t border-slate-200/70 dark:border-white/[0.08] py-10 px-6 text-sm text-slate-500 dark:text-[#8490b5]">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
             <span className="font-medium text-slate-700 dark:text-slate-300">
               &copy; {new Date().getFullYear()} Steven Fowler
             </span>
-            <span className="hidden sm:inline text-slate-300 dark:text-slate-700">&bull;</span>
-            <span>Director of Engineering &bull; Charlottesville, Virginia</span>
+            <span className="hidden sm:inline text-slate-300 dark:text-slate-700">
+              &bull;
+            </span>
+            <span className="font-mono text-xs">
+              Director of Engineering &bull; Charlottesville, Virginia
+            </span>
           </div>
 
           <div className="flex items-center gap-6">
+            <a
+              href="https://shipwrighthq.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#7611a6] dark:hover:text-[#c561f6] transition-colors inline-flex items-center gap-1.5 font-mono text-xs"
+            >
+              <GitBranch className="w-3.5 h-3.5" />
+              <span>Shipwright</span>
+            </a>
             <a
               href="https://github.com/stevenfowler16"
               target="_blank"

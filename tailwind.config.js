@@ -7,6 +7,7 @@ export default {
       fontFamily: {
         sans: ['"Public Sans"', 'system-ui', '-apple-system', 'sans-serif'],
         display: ['"Rubik"', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       colors: {
         accent: {
