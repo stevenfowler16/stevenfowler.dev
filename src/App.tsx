@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import {
   Activity,
   ArrowUpRight,
+  Award,
   BarChart3,
   Briefcase,
+  Building2,
   Check,
   CheckCircle2,
   ChevronDown,
@@ -17,12 +19,15 @@ import {
   FolderGit2,
   GitBranch,
   Github,
+  GraduationCap,
   Layers,
+  Linkedin,
   Lock,
   Mail,
   MapPin,
   Menu,
   Moon,
+  Network,
   Radio,
   Send,
   ShieldAlert,
@@ -54,44 +59,44 @@ interface OperatingPillar {
 const OPERATING_PILLARS: OperatingPillar[] = [
   {
     id: 'org-scale',
-    code: '01 / ORG DESIGN',
-    label: 'High-Trust Autonomy & Low Cognitive Load',
-    title: 'Scaling Teams Through Clarity, Ownership & Psychological Safety',
-    subtitle: 'Organizational Topology & Manager Empowerment',
+    code: '01 / ORG TOPOLOGY',
+    label: 'Leading Managers, Architects & Product Squads',
+    title: 'Scaling a 14-Person Org Across 3 Product Teams, 1 EM & 1 Architect',
+    subtitle: 'Second-Line Leadership & Cross-Team Alignment',
     thesis:
-      'High-performing engineering organizations scale when teams have crisp domain boundaries, clear decision rights, and low extraneous cognitive load. My role as a Director is to design team topologies and coaching systems where engineering managers and staff engineers can execute with autonomy rather than waiting on top-down escalation.',
+      'Transitioning from managing individual contributors to leading through an Engineering Manager and a Software Architect requires shifting from tactical code review to organizational systems design. I focus on establishing crisp ownership across our 3 product engineering teams so people leadership, architectural standards, and product delivery reinforce one another.',
     antiPattern:
-      'Siloed component teams, ambiguous ownership boundaries, and hero-driven firefighting that burn out senior engineers.',
+      'Bottlenecking all architectural and people decisions through the Director, or letting 3 product teams drift into isolated silos.',
     operatingStandard:
-      'Stream-aligned product & platform teams with explicit service contracts, structured RFC/ADR culture, and deliberate manager mentorship.',
+      'Clear triad alignment: Engineering Manager driving coaching & sprint flow, Architect guiding cross-team .NET/system boundaries, and 3 autonomous product squads.',
     signals: [
       {
-        metric: 'Team Autonomy',
-        target: 'Decoupled Bounded Contexts',
-        context: 'Clear API & domain contracts across .NET and web services',
+        metric: 'Org Structure',
+        target: '14 Engineers & Leaders',
+        context: '3 product teams + 1 Engineering Manager + 1 Software Architect',
       },
       {
-        metric: 'Onboarding Velocity',
-        target: '< 1 Week to First Prod PR',
-        context: 'Standardized golden paths and deterministic local dev setups',
+        metric: 'Decision Velocity',
+        target: 'Delegated Guardrails',
+        context: 'Architect & EM empowered with clear RFC/ADR and delivery ownership',
       },
       {
-        metric: 'Leadership Leverage',
-        target: 'Managers & Staff ICs Aligned',
-        context: 'Paired technical & people leadership cadences',
+        metric: 'Onboarding & Flow',
+        target: 'Low Cognitive Load',
+        context: 'Modular .NET & web boundaries that let squads ship independently',
       },
     ],
-    proofLabel: 'See how Shipwright codifies team visibility',
-    proofHref: '#shipwright-spotlight',
+    proofLabel: 'Inspect my Org Topology & Career Arc above',
+    proofHref: '#track-record',
   },
   {
     id: 'diagnostics',
     code: '02 / DIAGNOSTICS',
     label: 'Diagnostic Delivery Health (DORA + SPACE)',
     title: 'Illuminating Systemic Friction Without Weaponizing Metrics',
-    subtitle: 'Evidence-Based Engineering Operations',
+    subtitle: 'Evidence-Based Engineering Operations Across 3 Squads',
     thesis:
-      'Goodhart’s Law destroys engineering culture the moment velocity or PR counts are used to rank individuals. I use DORA and SPACE telemetry strictly as an organizational stethoscope—pinpointing systemic bottlenecks like PR review pickup delays, reviewer queue imbalances, and mid-sprint scope creep so leadership can remove friction.',
+      'Goodhart’s Law destroys engineering culture the moment velocity or PR counts are used to rank individuals. Across my 3 product teams, I use DORA and SPACE telemetry strictly as an organizational stethoscope—pinpointing systemic bottlenecks like PR review pickup delays, reviewer queue imbalances, and mid-sprint scope creep so leadership can remove friction.',
     antiPattern:
       'Vanity story-point velocity targets and individual commit leaderboards that incentivize gaming over software quality.',
     operatingStandard:
@@ -123,7 +128,7 @@ const OPERATING_PILLARS: OperatingPillar[] = [
     title: 'Replacing Manual Review Bottlenecks with Deterministic Policy Code',
     subtitle: 'Continuous Compliance & Blast-Radius Safety',
     thesis:
-      'Heavyweight manual Change Advisory Boards (CABs) slow delivery without actually preventing production incidents. Real safety comes from shifting governance into automated CI/CD guardrails: cross-repository branch policy enforcement, multi-environment secret & variable drift detection, and 1-click SOC2/ISO27001 audit evidence.',
+      'In regulated financial and actuarial software, compliance cannot rely on manual checklists. Real safety comes from shifting governance into automated CI/CD guardrails: cross-repository branch policy enforcement, multi-environment secret & variable drift detection, and 1-click SOC2/ISO27001 audit evidence.',
     antiPattern:
       'Manual spreadsheet checklists, snowflake environment configurations, and unmasked pipeline secrets discovered during outages.',
     operatingStandard:
@@ -155,9 +160,9 @@ const OPERATING_PILLARS: OperatingPillar[] = [
     title: 'Matching System Architecture to Business & Security Realities',
     subtitle: 'Hands-On Technical Judgment & Unit Economics',
     thesis:
-      'Whether modernizing legacy enterprise .NET estates via strangler-fig boundaries or building zero-egress client extensions and low-latency Cloudflare Workers, architecture must serve security compliance, maintainability, and unit economics. Staying hands-on in code keeps my architectural judgment sharp and grounded.',
+      'Whether partnering with our Software Architect on incremental .NET modernizations or building zero-egress client extensions and low-latency Cloudflare Workers, architecture must serve security compliance, maintainability, and unit economics. Staying hands-on in code keeps my executive judgment sharp.',
     antiPattern:
-      'Resume-driven microservices or risky "big-bang" rewrites that stall product delivery for quarters.',
+      'Resume-driven microservices or risky "big-bang" rewrites that stall product delivery across multiple quarters.',
     operatingStandard:
       'Incremental .NET Standard strangler-fig migrations, zero-egress client execution for enterprise SaaS, and edge-native compute.',
     signals: [
@@ -215,7 +220,7 @@ const SHIPWRIGHT_MODULES: ShipwrightModule[] = [
       {
         left: 'Stage 02 · PR Pickup Wait',
         middle: 'Median 1.9h',
-        right: 'Reviewer load balanced across 8 seniors',
+        right: 'Reviewer load balanced across 3 squads',
         pill: 'OPTIMAL',
       },
       {
@@ -240,7 +245,7 @@ const SHIPWRIGHT_MODULES: ShipwrightModule[] = [
     ],
     telemetryRows: [
       {
-        left: 'core-payments-service (main)',
+        left: 'core-actuarial-engine (main)',
         middle: 'Min 2 Reviewers · Build Gate',
         right: 'CODEOWNERS synced',
         pill: 'COMPLIANT',
@@ -252,7 +257,7 @@ const SHIPWRIGHT_MODULES: ShipwrightModule[] = [
         pill: 'COMPLIANT',
       },
       {
-        left: 'legacy-reporting-api (release/*)',
+        left: 'plan-portal-api (release/*)',
         middle: '1-Click Bulk Remediated',
         right: 'Cryptographic audit log exported',
         pill: 'ENFORCED',
@@ -273,20 +278,20 @@ const SHIPWRIGHT_MODULES: ShipwrightModule[] = [
     ],
     telemetryRows: [
       {
-        left: 'STRIPE_WEBHOOK_SECRET',
+        left: 'DB_CONN_ENCRYPTED_SECRET',
         middle: 'DEV ✓ · STAGE ✓ · PROD ✓',
         right: 'Masked secret lock verified',
         pill: 'LOCKED',
       },
       {
-        left: 'REDIS_CONN_TIMEOUT_MS',
+        left: 'CALC_WORKER_TIMEOUT_MS',
         middle: 'DEV (5000) → PROD (5000)',
         right: 'Used by 6 YAML release pipelines',
         pill: 'PARITY OK',
       },
       {
-        left: 'FEATURE_FLAG_NEW_CHECKOUT',
-        middle: 'Blast Radius: 3 Services',
+        left: 'FEATURE_FLAG_PORTAL_V2',
+        middle: 'Blast Radius: 3 Product Squads',
         right: 'Pre-deploy parity check passed',
         pill: 'VERIFIED',
       },
@@ -312,7 +317,7 @@ const SHIPWRIGHT_MODULES: ShipwrightModule[] = [
         pill: 'ACTIVE',
       },
       {
-        left: 'RFC-022: Zero-Egress Web Crypto Licensing',
+        left: 'RFC-022: Cross-Squad Service Contracts',
         middle: 'State Diagram & Key Flow',
         right: 'SVG export & pan/zoom enabled',
         pill: 'ACTIVE',
@@ -394,6 +399,27 @@ interface CompactProject {
 
 const COMPACT_PROJECTS: CompactProject[] = [
   {
+    id: 'net-architecture',
+    title: 'Enterprise .NET Modernization Patterns',
+    subtitle: 'Legacy .NET Framework to Modern .NET Multi-Targeting Reference',
+    category: 'Enterprise Architecture',
+    badgeText: 'Open Source Reference',
+    accentGradient: 'from-[#6366f1] via-[#8b5cf6] to-[#c561f6]',
+    executiveSummary:
+      'Architectural reference patterns for incrementally modernizing legacy enterprise .NET Framework applications to modern .NET without high-risk "big-bang" rewrites.',
+    executiveOutcomes: [
+      'De-risks multi-quarter enterprise migrations by isolating shared domain contracts in .NET Standard 2.0',
+      'Allows legacy .NET Framework workloads and modern .NET web services to ship features simultaneously across squads',
+      'Documents concrete team trade-offs between direct project references and internal NuGet package boundaries',
+    ],
+    xrayTopology: 'Legacy .NET Framework App + Modern .NET Web App → Shared .NET Standard 2.0 Domain Contract Layer',
+    xrayAuthAndState: 'Compile-time multi-targeted solution boundaries with strict dependency inversion',
+    xrayTradeoff:
+      'Trades NuGet versioning overhead for immediate cross-solution refactoring velocity during active strangler-fig migrations.',
+    tags: ['C#', '.NET', '.NET Standard 2.0', 'Strangler-Fig Migration', 'Clean Architecture'],
+    repoUrl: 'https://github.com/stevenfowler16/NETArchitectureExamples',
+  },
+  {
     id: 'obsidian-gateway',
     title: 'Obsidian Multi-Site & Email Gateway',
     subtitle: 'Multi-Tenant Knowledge Portal & Edge Email-to-Markdown Pipeline',
@@ -433,34 +459,13 @@ const COMPACT_PROJECTS: CompactProject[] = [
       'Eliminated framework bundle overhead entirely—custom pixel rendering and procedural bird-call synthesis load in < 35KB.',
     tags: ['JavaScript', 'Web Audio API', 'PWA Service Worker', '16-Bit Sprite Engine', 'Supabase'],
   },
-  {
-    id: 'net-architecture',
-    title: 'Enterprise .NET Modernization Patterns',
-    subtitle: 'Legacy .NET Framework to Modern .NET Multi-Targeting Reference',
-    category: 'Architecture & .NET',
-    badgeText: 'Open Source Reference',
-    accentGradient: 'from-[#6366f1] via-[#8b5cf6] to-[#c561f6]',
-    executiveSummary:
-      'Architectural reference patterns for incrementally modernizing legacy enterprise .NET Framework applications to modern .NET without high-risk "big-bang" rewrites.',
-    executiveOutcomes: [
-      'De-risks multi-quarter enterprise migrations by isolating shared domain contracts in .NET Standard 2.0',
-      'Allows legacy .NET Framework workloads and modern .NET web services to ship features simultaneously',
-      'Documents concrete team trade-offs between direct project references and internal NuGet package boundaries',
-    ],
-    xrayTopology: 'Legacy .NET Framework App + Modern .NET Web App → Shared .NET Standard 2.0 Domain Contract Layer',
-    xrayAuthAndState: 'Compile-time multi-targeted solution boundaries with strict dependency inversion',
-    xrayTradeoff:
-      'Trades NuGet versioning overhead for immediate cross-solution refactoring velocity during active strangler-fig migrations.',
-    tags: ['C#', '.NET', '.NET Standard 2.0', 'Strangler-Fig Migration', 'Clean Architecture'],
-    repoUrl: 'https://github.com/stevenfowler16/NETArchitectureExamples',
-  },
 ];
 
 const CONTACT_TOPICS = [
   {
     id: 'leadership',
-    label: 'Engineering Leadership & Org Scale',
-    subject: 'Connecting via stevenfowler.dev — Engineering Leadership',
+    label: 'Executive Leadership & Org Scale',
+    subject: 'Connecting via stevenfowler.dev — Director of Engineering / Leadership',
   },
   {
     id: 'shipwright',
@@ -579,38 +584,44 @@ export default function App() {
           <div className="hidden md:flex items-center gap-1 p-1.5 rounded-full bg-white/90 dark:bg-[#0f131d]/90 border border-slate-200/90 dark:border-white/[0.08] shadow-sm">
             <a
               href="#about"
-              className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
+              className="px-3.5 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
             >
-              Executive Profile
+              Overview
+            </a>
+            <a
+              href="#track-record"
+              className="px-3.5 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
+            >
+              Org &amp; Track Record
             </a>
             <a
               href="#leadership"
-              className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
+              className="px-3.5 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
             >
               Operating System
             </a>
             <a
               href="#shipwright-spotlight"
-              className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
+              className="px-3.5 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
             >
-              Shipwright Suite
+              Shipwright
             </a>
             <a
               href="#projects"
-              className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
+              className="px-3.5 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
             >
               Systems Lab
             </a>
             <a
               href="#contact"
-              className="px-4 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
+              className="px-3.5 py-1.5 rounded-full text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-purple-500/10 transition-colors"
             >
               Connect
             </a>
           </div>
 
           {/* Right Actions */}
-          <div className="hidden md:flex items-center gap-2.5">
+          <div className="hidden md:flex items-center gap-2">
             <button
               onClick={() =>
                 setViewLens((prev) => (prev === 'executive' ? 'xray' : 'executive'))
@@ -630,10 +641,22 @@ export default function App() {
             </button>
 
             <a
+              href="https://www.linkedin.com/search/results/all/?keywords=Steven%20Fowler%20October%20Three"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn Profile"
+              title="LinkedIn Profile"
+              className="p-2.5 rounded-full text-slate-600 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-slate-200/60 dark:hover:bg-slate-800/70 transition-colors"
+            >
+              <Linkedin className="w-5 h-5" />
+            </a>
+
+            <a
               href="https://github.com/stevenfowler16"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
+              title="GitHub Profile"
               className="p-2.5 rounded-full text-slate-600 dark:text-slate-300 hover:text-[#7611a6] dark:hover:text-[#c561f6] hover:bg-slate-200/60 dark:hover:bg-slate-800/70 transition-colors"
             >
               <Github className="w-5 h-5" />
@@ -696,7 +719,8 @@ export default function App() {
           <div className="md:hidden border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-[#141925]/95 backdrop-blur-lg px-6 py-5 space-y-4">
             <div className="flex flex-col space-y-2">
               {[
-                { label: 'Executive Profile', href: '#about' },
+                { label: 'Executive Overview', href: '#about' },
+                { label: 'Org Scope & Track Record', href: '#track-record' },
                 { label: 'Director’s Operating System', href: '#leadership' },
                 { label: 'Shipwright Flagship Suite', href: '#shipwright-spotlight' },
                 { label: 'Systems & Product Lab', href: '#projects' },
@@ -713,14 +737,24 @@ export default function App() {
               ))}
             </div>
             <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
-              <a
-                href="https://github.com/stevenfowler16"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300"
-              >
-                <Github className="w-4 h-4" /> GitHub
-              </a>
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://www.linkedin.com/search/results/all/?keywords=Steven%20Fowler%20October%20Three"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-300"
+                >
+                  <Linkedin className="w-4 h-4" /> LinkedIn
+                </a>
+                <a
+                  href="https://github.com/stevenfowler16"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-300"
+                >
+                  <Github className="w-4 h-4" /> GitHub
+                </a>
+              </div>
               <button
                 onClick={() => {
                   setViewLens((prev) => (prev === 'executive' ? 'xray' : 'executive'));
@@ -728,7 +762,7 @@ export default function App() {
                 }}
                 className="px-3 py-1.5 rounded-full font-mono text-xs bg-purple-500/15 text-[#7611a6] dark:text-[#c561f6]"
               >
-                Toggle X-Ray Mode ({viewLens === 'xray' ? 'ON' : 'OFF'})
+                X-Ray ({viewLens === 'xray' ? 'ON' : 'OFF'})
               </button>
             </div>
           </div>
@@ -737,7 +771,7 @@ export default function App() {
 
       {/* Main Content */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-10 md:py-16 space-y-24 md:space-y-28">
-        {/* STAGE 1: ABOVE-THE-FOLD EXECUTIVE HERO + TELEMETRY SNAPSHOT */}
+        {/* STAGE 1: ABOVE-THE-FOLD EXECUTIVE HERO + QUANTIFIED TELEMETRY SNAPSHOT */}
         <section id="about" className="space-y-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
             {/* Hero Copy (7 cols) */}
@@ -745,6 +779,8 @@ export default function App() {
               <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2.5 px-3.5 py-1.5 rounded-full font-mono text-xs font-medium bg-purple-500/10 dark:bg-purple-500/15 text-[#7611a6] dark:text-[#c561f6] border border-purple-500/25">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>DIRECTOR OF ENGINEERING</span>
+                <span className="opacity-40">•</span>
+                <span>14-PERSON ORG (3 SQUADS · 1 EM · 1 ARCHITECT)</span>
                 <span className="opacity-40">•</span>
                 <span className="inline-flex items-center gap-1">
                   <MapPin className="w-3 h-3" /> Charlottesville, VA
@@ -764,19 +800,28 @@ export default function App() {
               </div>
 
               <p className="text-base sm:text-lg lg:text-xl text-slate-600 dark:text-[#a3acc8] max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                I lead multi-team engineering organizations, align technical architecture
-                with executive strategy, and stay hands-on shipping commercial Azure DevOps
-                governance suites, enterprise <code className="font-mono text-sm text-[#7611a6] dark:text-[#c561f6]">.NET</code> systems, and edge-native platforms.
+                Director of Engineering leading a{' '}
+                <strong className="font-semibold text-[#090b11] dark:text-white">
+                  14-person engineering organization
+                </strong>{' '}
+                across{' '}
+                <strong className="font-semibold text-[#090b11] dark:text-white">
+                  3 product teams, an Engineering Manager, and a Software Architect
+                </strong>
+                . I bridge executive product strategy, enterprise{' '}
+                <code className="font-mono text-sm text-[#7611a6] dark:text-[#c561f6]">
+                  .NET
+                </code>{' '}
+                modernization, and hands-on creation of commercial DevOps governance suites.
               </p>
 
               {/* Interactive Focus Jump Pills */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-2 pt-1">
                 <a
-                  href="#leadership"
-                  onClick={() => setActivePillarId('org-scale')}
+                  href="#track-record"
                   className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-[#7611a6] text-white shadow-sm shadow-[#7611a6]/30 hover:opacity-95 transition-opacity"
                 >
-                  <Users className="w-3.5 h-3.5" /> Org Scale &amp; Culture
+                  <Network className="w-3.5 h-3.5" /> 14-Person Org Topology
                 </a>
                 <a
                   href="#leadership"
@@ -797,17 +842,17 @@ export default function App() {
                   onClick={() => setActivePillarId('architecture')}
                   className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-medium surface-card text-slate-700 dark:text-slate-200 hover:border-[#c561f6]/50 transition-colors"
                 >
-                  <Code2 className="w-3.5 h-3.5 text-[#c561f6]" /> Hands-On Architecture
+                  <Code2 className="w-3.5 h-3.5 text-[#c561f6]" /> Enterprise .NET &amp; Edge
                 </a>
               </div>
 
               {/* Hero CTAs */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-3.5 pt-2">
                 <a
-                  href="#leadership"
+                  href="#track-record"
                   className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full font-semibold text-sm sm:text-base text-white bg-gradient-to-r from-[#c561f6] via-[#7611a6] to-[#4c11c6] hover:opacity-95 shadow-lg shadow-[#7611a6]/25 transition-all"
                 >
-                  <span>Explore Operating Playbook</span>
+                  <span>View Org Scope &amp; Track Record</span>
                   <ArrowUpRight className="w-4 h-4" />
                 </a>
                 <a
@@ -843,7 +888,7 @@ export default function App() {
                           Steven Fowler
                         </div>
                         <div className="font-mono text-[10px] text-[#c561f6]">
-                          Director of Engineering
+                          Director of Engineering · October Three
                         </div>
                       </div>
                       <a
@@ -858,30 +903,30 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Executive Dossier Telemetry Strip */}
+                  {/* Quantified Executive Dossier Telemetry Strip */}
                   <div className="grid grid-cols-3 divide-x divide-slate-200/80 dark:divide-white/[0.08] pt-3 pb-1 text-center">
                     <div className="px-2">
                       <div className="font-mono text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                        Mandate
+                        Org Scope
                       </div>
                       <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5">
-                        Multi-Team Scale
+                        14 People · 3 Teams
                       </div>
                     </div>
                     <div className="px-2">
                       <div className="font-mono text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                        Core Stack
+                        Direct Leaders
                       </div>
                       <div className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-0.5">
-                        .NET · TS · Edge
+                        1 EM · 1 Architect
                       </div>
                     </div>
                     <div className="px-2">
                       <div className="font-mono text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                        Lab Output
+                        Education
                       </div>
                       <div className="text-xs font-semibold text-[#7611a6] dark:text-[#c561f6] mt-0.5">
-                        6 Live Systems
+                        Georgia Tech CS
                       </div>
                     </div>
                   </div>
@@ -890,36 +935,36 @@ export default function App() {
             </div>
           </div>
 
-          {/* 4-Metric Executive Impact & Operating Strip (Above/Near the Fold) */}
+          {/* 4-Metric Quantified Executive Snapshot Strip */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
             {[
               {
-                code: '01 / ORG SCALE',
-                title: 'Organizational Leadership',
-                metric: 'High-Trust Execution',
-                desc: 'Developing engineering managers & staff ICs, reducing cognitive load, and aligning multi-quarter delivery.',
+                code: '01 / ORG SCOPE',
+                title: '14-Person Engineering Org',
+                metric: '3 Product Squads · 1 EM · 1 Architect',
+                desc: 'Second-line engineering leadership driving product delivery, manager development, and cross-team architectural alignment.',
+                icon: Users,
+              },
+              {
+                code: '02 / CAREER PROGRESSION',
+                title: 'IC → Lead → Director',
+                metric: 'Enterprise FinTech & Actuarial SaaS',
+                desc: 'Promoted internally at October Three Consulting by scaling modular .NET architecture, CI/CD governance, and team execution.',
                 icon: Trophy,
               },
               {
-                code: '02 / DEVOPS & DORA',
+                code: '03 / DEVOPS & DORA',
                 title: 'Creator of Shipwright',
                 metric: '4 Commercial ADO Extensions',
-                desc: 'Author of EngPulse (DORA+SPACE), PolicyGuard (SOC2), EnvMatrix, and MermaidScope at shipwrighthq.com.',
+                desc: 'Built EngPulse (DORA+SPACE), PolicyGuard (SOC2), EnvMatrix, and MermaidScope directly from multi-team leadership needs.',
                 icon: BarChart3,
               },
               {
-                code: '03 / ENTERPRISE & EDGE',
-                title: 'Hands-On Architecture',
-                metric: '.NET · TypeScript · Python',
-                desc: 'Pragmatic strangler-fig .NET modernization paired with Cloudflare Workers, Supabase, and Web Crypto.',
-                icon: Layers,
-              },
-              {
-                code: '04 / SECURITY BY DESIGN',
-                title: 'Zero-Egress Governance',
-                metric: 'Automated Guardrails',
-                desc: '100% client-side enterprise extension architecture & continuous branch/secret compliance over manual CABs.',
-                icon: ShieldCheck,
+                code: '04 / TECHNICAL DEPTH',
+                title: 'Hands-On Architecture & CS',
+                metric: '.NET · TypeScript · Georgia Tech',
+                desc: 'Combining enterprise .NET modernization and Cloudflare edge platforms with graduate Computer Science studies at Georgia Tech.',
+                icon: GraduationCap,
               },
             ].map((item) => {
               const Icon = item.icon;
@@ -951,7 +996,233 @@ export default function App() {
           </div>
         </section>
 
-        {/* STAGE 2: INTERACTIVE "DIRECTOR'S OPERATING SYSTEM" CONSOLE */}
+        {/* STAGE 2: EXECUTIVE TRACK RECORD, ORG TOPOLOGY & CAREER PROGRESSION */}
+        <section id="track-record" className="space-y-8 scroll-mt-24">
+          <div className="space-y-2 max-w-3xl">
+            <div className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#7611a6] dark:text-[#c561f6]">
+              <Building2 className="w-3.5 h-3.5" />
+              <span>Enterprise Leadership Track Record &amp; Organizational Scope</span>
+            </div>
+            <h2 className="font-display font-bold text-3xl sm:text-4xl tracking-tight text-[#090b11] dark:text-white">
+              Organizational Topology &amp; Career Arc
+            </h2>
+            <p className="text-slate-600 dark:text-[#a3acc8] text-sm sm:text-base">
+              How I structure and lead my current 14-person engineering organization, and
+              the progression from hands-on full-stack engineer to Director of Engineering.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+            {/* Left 6 Cols: Current 14-Person Org Topology Blueprint */}
+            <div className="lg:col-span-6 rounded-3xl p-7 sm:p-8 surface-card flex flex-col justify-between space-y-6">
+              <div className="space-y-5">
+                <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-white/[0.08] pb-4">
+                  <div>
+                    <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                      // CURRENT ORGANIZATIONAL SCOPE
+                    </span>
+                    <h3 className="font-display font-bold text-2xl text-[#090b11] dark:text-white mt-1">
+                      14-Person Multi-Team Topology
+                    </h3>
+                  </div>
+                  <span className="font-mono text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    Active Scope
+                  </span>
+                </div>
+
+                {/* Visual Org Chart Blueprint */}
+                <div className="space-y-3">
+                  {/* Top Node: Director */}
+                  <div className="rounded-2xl p-4 bg-gradient-to-r from-[#7611a6]/20 via-[#c561f6]/15 to-transparent border border-[#c561f6]/40 flex items-center justify-between">
+                    <div>
+                      <div className="font-mono text-[10px] uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                        Executive Strategy, Delivery &amp; Org Design
+                      </div>
+                      <div className="font-display font-bold text-base text-[#090b11] dark:text-white">
+                        Director of Engineering (Steven Fowler)
+                      </div>
+                    </div>
+                    <span className="font-mono text-xs font-semibold px-2.5 py-1 rounded-lg bg-[#7611a6] text-white">
+                      14 Total
+                    </span>
+                  </div>
+
+                  {/* Middle Layer: 1 EM + 1 Architect */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pl-3 border-l-2 border-[#c561f6]/40">
+                    <div className="rounded-xl p-3.5 surface-well space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-[10px] font-semibold text-[#7611a6] dark:text-[#c561f6]">
+                          PEOPLE &amp; EXECUTION
+                        </span>
+                        <Users className="w-3.5 h-3.5 text-[#c561f6]" />
+                      </div>
+                      <div className="font-display font-bold text-sm text-[#090b11] dark:text-white">
+                        1 Engineering Manager
+                      </div>
+                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Partnering on career growth, sprint execution health, hiring, and
+                        day-to-day squad ceremonies.
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl p-3.5 surface-well space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-[10px] font-semibold text-[#7611a6] dark:text-[#c561f6]">
+                          SYSTEMS &amp; STANDARDS
+                        </span>
+                        <Layers className="w-3.5 h-3.5 text-[#c561f6]" />
+                      </div>
+                      <div className="font-display font-bold text-sm text-[#090b11] dark:text-white">
+                        1 Software Architect
+                      </div>
+                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Partnering on cross-team .NET boundaries, platform modernization,
+                        and technical RFC/ADR guardrails.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Execution Layer: 3 Product Engineering Teams */}
+                  <div className="pl-3 border-l-2 border-emerald-500/40 space-y-2">
+                    <div className="font-mono text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                      Delivery Execution Layer — 3 Product Engineering Teams
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                      {[
+                        {
+                          squad: 'Product Team 01',
+                          focus: 'Core Actuarial & Plan Engines',
+                          stack: '.NET · C# · SQL',
+                        },
+                        {
+                          squad: 'Product Team 02',
+                          focus: 'Client & Advisor Portals',
+                          stack: 'TypeScript · Web · APIs',
+                        },
+                        {
+                          squad: 'Product Team 03',
+                          focus: 'Data, Integrations & Platform',
+                          stack: '.NET · Azure DevOps · Cloud',
+                        },
+                      ].map((t) => (
+                        <div
+                          key={t.squad}
+                          className="rounded-xl p-3 surface-well border border-emerald-500/15 space-y-1"
+                        >
+                          <div className="font-mono text-[11px] font-semibold text-[#090b11] dark:text-white">
+                            {t.squad}
+                          </div>
+                          <div className="text-[11px] text-slate-600 dark:text-slate-300 leading-tight">
+                            {t.focus}
+                          </div>
+                          <div className="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 pt-0.5">
+                            {t.stack}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-slate-200/80 dark:border-white/[0.08] flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 dark:text-slate-400">
+                <span> Triad Leadership Model (Director + EM + Architect)</span>
+                <span className="font-mono text-[11px] text-[#7611a6] dark:text-[#c561f6]">
+                  High Autonomy · Low Overhead
+                </span>
+              </div>
+            </div>
+
+            {/* Right 6 Cols: Career Progression & Education Timeline */}
+            <div className="lg:col-span-6 rounded-3xl p-7 sm:p-8 surface-card flex flex-col justify-between space-y-6">
+              <div className="space-y-5">
+                <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-white/[0.08] pb-4">
+                  <div>
+                    <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                      // CAREER ARC &amp; CREDENTIALS
+                    </span>
+                    <h3 className="font-display font-bold text-2xl text-[#090b11] dark:text-white mt-1">
+                      From Full-Stack IC to Director
+                    </h3>
+                  </div>
+                  <Award className="w-5 h-5 text-[#c561f6]" />
+                </div>
+
+                <div className="space-y-4">
+                  {[
+                    {
+                      role: 'Director of Engineering',
+                      org: 'October Three Consulting · Actuarial & Retirement FinTech',
+                      badge: 'Current Role',
+                      desc: 'Leading a 14-person engineering organization across 3 product engineering teams, 1 Engineering Manager, and 1 Software Architect. Driving multi-quarter roadmap execution, enterprise .NET modernization, and automated Azure DevOps governance.',
+                    },
+                    {
+                      role: 'Engineering Lead & Senior Software Developer',
+                      org: 'October Three Consulting · Enterprise Software Team',
+                      badge: 'Internal Promotion',
+                      desc: 'Architected modular, scalable full-stack .NET and web applications for pension administration and lifetime income modeling while establishing CI/CD automation and engineering standards across the team.',
+                    },
+                    {
+                      role: 'Front-End Engineering Lead',
+                      org: 'Professional Sports Organization · Jacksonville, FL',
+                      badge: 'Early Leadership',
+                      desc: 'Oversaw front-end development, web architecture, and digital fan experiences prior to transitioning into enterprise financial and actuarial software.',
+                    },
+                    {
+                      role: 'Graduate Computer Science Studies',
+                      org: 'Georgia Institute of Technology (Georgia Tech)',
+                      badge: 'Academic Depth',
+                      desc: 'Pursuing advanced graduate coursework in database systems, software architecture, and computing alongside full-time executive leadership.',
+                    },
+                  ].map((step) => (
+                    <div
+                      key={step.role}
+                      className="rounded-2xl p-4 surface-well space-y-1.5"
+                    >
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="font-display font-bold text-base text-[#090b11] dark:text-white">
+                          {step.role}
+                        </div>
+                        <span className="font-mono text-[10px] px-2.5 py-0.5 rounded-full bg-purple-500/10 text-[#7611a6] dark:text-[#c561f6] border border-purple-500/20">
+                          {step.badge}
+                        </span>
+                      </div>
+                      <div className="font-mono text-xs text-slate-500 dark:text-slate-400">
+                        {step.org}
+                      </div>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed pt-0.5">
+                        {step.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-slate-200/80 dark:border-white/[0.08] flex items-center justify-between">
+                <a
+                  href="https://www.octoberthree.com/team/steven-fowler/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-[#c561f6]"
+                >
+                  <span>October Three Profile</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/search/results/all/?keywords=Steven%20Fowler%20October%20Three"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7611a6] dark:text-[#c561f6] hover:underline"
+                >
+                  <Linkedin className="w-3.5 h-3.5" />
+                  <span>Connect on LinkedIn</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* STAGE 3: INTERACTIVE "DIRECTOR'S OPERATING SYSTEM" CONSOLE */}
         <section id="leadership" className="space-y-8 scroll-mt-24">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="space-y-2 max-w-2xl">
@@ -963,8 +1234,9 @@ export default function App() {
                 The Director’s Operating System
               </h2>
               <p className="text-slate-600 dark:text-[#a3acc8] text-sm sm:text-base">
-                Select any operating pillar below to inspect how I diagnose organizational
-                friction, design guardrails, and scale engineering teams.
+                Select any operating pillar below to inspect how I align our Engineering
+                Manager, Architect, and 3 product teams around healthy delivery and
+                automated governance.
               </p>
             </div>
             <div className="font-mono text-xs text-slate-500 dark:text-slate-400">
@@ -1085,7 +1357,7 @@ export default function App() {
 
               <div className="pt-4 border-t border-slate-200/80 dark:border-white/[0.08] flex items-center justify-between">
                 <span className="font-mono text-xs text-slate-500 dark:text-slate-400">
-                  Backed by production software
+                  Backed by real org design &amp; production tooling
                 </span>
                 <a
                   href={activePillar.proofHref}
@@ -1099,22 +1371,23 @@ export default function App() {
           </div>
         </section>
 
-        {/* STAGE 3: ASYMMETRIC BENTO SHOWCASE + GLOBAL LENS TOGGLE */}
+        {/* STAGE 4: ASYMMETRIC BENTO SHOWCASE + GLOBAL LENS TOGGLE */}
         <section id="projects" className="space-y-10 scroll-mt-24">
           {/* Section Header + Global Lens Segmented Control */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="space-y-2 max-w-2xl">
               <div className="inline-flex items-center gap-2 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#7611a6] dark:text-[#c561f6]">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Hands-On Engineering &amp; Product Lab</span>
+                <span>Commercial DevTools &amp; Applied Edge Velocity Lab</span>
               </div>
               <h2 className="font-display font-bold text-3xl sm:text-4xl tracking-tight text-[#090b11] dark:text-white">
                 Systems &amp; Products I’ve Built
               </h2>
               <p className="text-slate-600 dark:text-[#a3acc8] text-sm sm:text-base">
-                Switch between the <strong>Executive &amp; Product ROI</strong> view and the{' '}
-                <strong>Architecture X-Ray</strong> view to inspect system topologies and
-                design trade-offs.
+                Alongside leading my 14-person engineering organization, I stay hands-on
+                building commercial DevOps software and full-stack edge products. Toggle
+                between <strong>Executive &amp; Product ROI</strong> and{' '}
+                <strong>Architecture X-Ray</strong> below.
               </p>
             </div>
 
@@ -1163,7 +1436,7 @@ export default function App() {
                 <div className="space-y-4">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
-                      <Sparkles className="w-3.5 h-3.5" /> Flagship Commercial Suite · SaaS &amp; DevTools
+                      <Sparkles className="w-3.5 h-3.5" /> Flagship Enterprise Suite · Commercial DevTools
                     </span>
                     <span className="font-mono text-xs px-3 py-1 rounded-full bg-purple-500/10 dark:bg-purple-500/20 text-[#7611a6] dark:text-[#c561f6] border border-purple-500/25">
                       shipwrighthq.com
@@ -1175,9 +1448,9 @@ export default function App() {
                       Shipwright — Azure DevOps Engineering Intelligence &amp; Governance
                     </h3>
                     <p className="text-sm sm:text-base text-slate-600 dark:text-[#a3acc8] mt-2 leading-relaxed">
-                      Built directly from the visibility and compliance challenges of leading
-                      multi-team engineering organizations: a monorepo of four standalone
-                      Azure DevOps extensions (<strong>EngPulse</strong>,{' '}
+                      Born directly out of the visibility, DORA diagnostic, and compliance
+                      needs of leading multiple product teams: a commercial monorepo of four
+                      standalone Azure DevOps extensions (<strong>EngPulse</strong>,{' '}
                       <strong>PolicyGuard</strong>, <strong>EnvMatrix</strong>, and{' '}
                       <strong>MermaidScope</strong>).
                     </p>
@@ -1373,208 +1646,7 @@ export default function App() {
             </div>
           </article>
 
-          {/* ROW 2: 6-COL + 6-COL FEATURED INTERACTIVE BENTO (RAFTERS & CALLSHEET) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Rafters Card (6 cols) */}
-            <article className="lg:col-span-6 rounded-3xl p-7 sm:p-8 surface-card-interactive flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                    Edge Platforms &amp; Quantitative Data
-                  </span>
-                  <span className="font-mono text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                    raftersfantasy.com
-                  </span>
-                </div>
-
-                <div>
-                  <h3 className="font-display font-bold text-2xl text-[#090b11] dark:text-white">
-                    Rafters — Multi-Decade Sports Intelligence &amp; Discord Engine
-                  </h3>
-                  <p className="text-sm text-slate-600 dark:text-[#a3acc8] mt-1.5 leading-relaxed">
-                    Reconstructs 15+ years of longitudinal ESPN league history, models All-Play
-                    Expected Win variance ("Luck Index") and point spreads, and powers an
-                    automated Discord bot with 5 switchable analytical personas.
-                  </p>
-                </div>
-
-                {viewLens === 'executive' ? (
-                  <div className="rounded-2xl p-4 surface-well space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
-                        Interactive Persona Dispatch Preview
-                      </span>
-                      <Radio className="w-3.5 h-3.5 text-emerald-400" />
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {RAFTERS_PERSONAS.map((persona, idx) => (
-                        <button
-                          key={persona.id}
-                          onClick={() => setActiveRaftersPersona(idx)}
-                          className={`px-2.5 py-1 rounded-lg font-mono text-[11px] transition-all cursor-pointer border ${
-                            activeRaftersPersona === idx
-                              ? 'bg-[#7611a6] text-white border-[#c561f6]/40'
-                              : 'bg-white/80 dark:bg-[#0f131d] text-slate-600 dark:text-slate-300 border-slate-200/70 dark:border-white/[0.06]'
-                          }`}
-                        >
-                          {persona.label}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="rounded-xl p-3 bg-white/85 dark:bg-[#0f131d] border border-slate-200/70 dark:border-white/[0.06] space-y-1">
-                      <div className="font-mono text-[10px] text-emerald-600 dark:text-emerald-400">
-                        {RAFTERS_PERSONAS[activeRaftersPersona].tone}
-                      </div>
-                      <p className="text-xs italic text-slate-700 dark:text-slate-300 leading-relaxed">
-                        {RAFTERS_PERSONAS[activeRaftersPersona].sample}
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="rounded-2xl p-4 surface-well font-mono text-xs space-y-2 border border-[#c561f6]/30">
-                    <div className="text-[#7611a6] dark:text-[#c561f6] font-semibold">
-                      // ARCHITECTURE X-RAY: RAFTERS
-                    </div>
-                    <div className="text-slate-700 dark:text-slate-300">
-                      <span className="text-slate-400">RUNTIME: </span>
-                      Cloudflare Python Workers (<code className="text-[#c561f6]">python_workers</code>) +
-                      Discord Slash Command Engine + Stripe Billing
-                    </div>
-                    <div className="text-slate-700 dark:text-slate-300">
-                      <span className="text-slate-400">DATA LAYER: </span>
-                      15-year longitudinal ESPN API normalizer + isolated Supabase{' '}
-                      <code className="text-[#c561f6]">rafters</code> schema with encrypted credential vault
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="pt-4 border-t border-slate-200/80 dark:border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
-                <div className="flex flex-wrap gap-1.5">
-                  {['Python Workers', 'Supabase', 'Discord API', 'Stripe', 'Statistical Modeling'].map(
-                    (tag) => (
-                      <span
-                        key={tag}
-                        className="font-mono text-[11px] px-2.5 py-1 rounded-md surface-well text-slate-700 dark:text-slate-300"
-                      >
-                        {tag}
-                      </span>
-                    )
-                  )}
-                </div>
-                <a
-                  href="https://raftersfantasy.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#7611a6] dark:text-[#c561f6] hover:underline"
-                >
-                  <span>Visit raftersfantasy.com</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            </article>
-
-            {/* The Callsheet Card (6 cols) */}
-            <article className="lg:col-span-6 rounded-3xl p-7 sm:p-8 surface-card-interactive flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">
-                    Interactive Consumer Web App
-                  </span>
-                  <span className="font-mono text-xs px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
-                    callsheet.quest
-                  </span>
-                </div>
-
-                <div>
-                  <h3 className="font-display font-bold text-2xl text-[#090b11] dark:text-white">
-                    The Callsheet — Daily Cinema Dispatch &amp; Film Club
-                  </h3>
-                  <p className="text-sm text-slate-600 dark:text-[#a3acc8] mt-1.5 leading-relaxed">
-                    A cinephile daily deduction habit featuring a 7-day rotating puzzle
-                    mechanic, private workplace film leagues, 27 collectible movie prop
-                    badges, and resident studio lot supervisor Otto the Cat.
-                  </p>
-                </div>
-
-                {viewLens === 'executive' ? (
-                  <div className="rounded-2xl p-4 surface-well space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
-                        Interactive 7-Day Reel Mechanic Preview
-                      </span>
-                      <Film className="w-3.5 h-3.5 text-amber-400" />
-                    </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {CALLSHEET_DAYS.map((d, idx) => (
-                        <button
-                          key={d.day}
-                          onClick={() => setActiveCallsheetDay(idx)}
-                          className={`px-2.5 py-1 rounded-lg font-mono text-[11px] transition-all cursor-pointer border ${
-                            activeCallsheetDay === idx
-                              ? 'bg-[#7611a6] text-white border-[#c561f6]/40'
-                              : 'bg-white/80 dark:bg-[#0f131d] text-slate-600 dark:text-slate-300 border-slate-200/70 dark:border-white/[0.06]'
-                          }`}
-                        >
-                          {d.day}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="rounded-xl p-3 bg-white/85 dark:bg-[#0f131d] border border-slate-200/70 dark:border-white/[0.06] space-y-1">
-                      <div className="font-mono text-[10px] text-amber-600 dark:text-amber-400">
-                        {CALLSHEET_DAYS[activeCallsheetDay].mechanic}
-                      </div>
-                      <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                        {CALLSHEET_DAYS[activeCallsheetDay].clue}
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="rounded-2xl p-4 surface-well font-mono text-xs space-y-2 border border-[#c561f6]/30">
-                    <div className="text-[#7611a6] dark:text-[#c561f6] font-semibold">
-                      // ARCHITECTURE X-RAY: THE CALLSHEET
-                    </div>
-                    <div className="text-slate-700 dark:text-slate-300">
-                      <span className="text-slate-400">TOPOLOGY: </span>
-                      React 18 + Vite SPA on Cloudflare Workers → Isolated{' '}
-                      <code className="text-[#c561f6]">callsheet</code> Supabase Postgres Schema
-                    </div>
-                    <div className="text-slate-700 dark:text-slate-300">
-                      <span className="text-slate-400">STATE &amp; AUDIO: </span>
-                      Zero-friction guest UUID to OAuth account migration + procedural Web
-                      Audio synthesizer soundtracks
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="pt-4 border-t border-slate-200/80 dark:border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
-                <div className="flex flex-wrap gap-1.5">
-                  {['React 18', 'TypeScript', 'Supabase RLS', 'Web Audio API', 'Cloudflare'].map(
-                    (tag) => (
-                      <span
-                        key={tag}
-                        className="font-mono text-[11px] px-2.5 py-1 rounded-md surface-well text-slate-700 dark:text-slate-300"
-                      >
-                        {tag}
-                      </span>
-                    )
-                  )}
-                </div>
-                <a
-                  href="https://callsheet.quest"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#7611a6] dark:text-[#c561f6] hover:underline"
-                >
-                  <span>Play at callsheet.quest</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            </article>
-          </div>
-
-          {/* ROW 3: 3-COLUMN COMPACT ARCHITECTURAL BENTO CARDS */}
+          {/* ROW 2: 3-COLUMN ENTERPRISE .NET & EDGE ARCHITECTURE BENTO */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {COMPACT_PROJECTS.map((project) => {
               const isExpanded = expandedCompactId === project.id;
@@ -1704,9 +1776,222 @@ export default function App() {
               );
             })}
           </div>
+
+          {/* ROW 3: APPLIED EDGE & AI-AUGMENTED VELOCITY LAB (RAFTERS & CALLSHEET) */}
+          <div className="space-y-4 pt-2">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/70 dark:border-white/[0.08] pb-3">
+              <div className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                <Cpu className="w-4 h-4" />
+                <span>After-Hours Edge &amp; Product Velocity Lab</span>
+              </div>
+              <span className="text-xs text-slate-500 dark:text-slate-400">
+                Staying hands-on with Python Workers, Supabase RLS, Stripe, and procedural Web Audio
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              {/* Rafters Card (6 cols) */}
+              <article className="lg:col-span-6 rounded-3xl p-7 sm:p-8 surface-card-interactive flex flex-col justify-between space-y-6">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                      Edge Python Workers &amp; Longitudinal Data
+                    </span>
+                    <span className="font-mono text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                      raftersfantasy.com
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="font-display font-bold text-2xl text-[#090b11] dark:text-white">
+                      Rafters — Multi-Decade Sports Intelligence &amp; Discord Engine
+                    </h3>
+                    <p className="text-sm text-slate-600 dark:text-[#a3acc8] mt-1.5 leading-relaxed">
+                      Reconstructs 15+ years of longitudinal ESPN league history, models All-Play
+                      Expected Win variance ("Luck Index") and point spreads, and powers an
+                      automated Discord bot with 5 switchable analytical personas.
+                    </p>
+                  </div>
+
+                  {viewLens === 'executive' ? (
+                    <div className="rounded-2xl p-4 surface-well space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                          Interactive Persona Dispatch Preview
+                        </span>
+                        <Radio className="w-3.5 h-3.5 text-emerald-400" />
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {RAFTERS_PERSONAS.map((persona, idx) => (
+                          <button
+                            key={persona.id}
+                            onClick={() => setActiveRaftersPersona(idx)}
+                            className={`px-2.5 py-1 rounded-lg font-mono text-[11px] transition-all cursor-pointer border ${
+                              activeRaftersPersona === idx
+                                ? 'bg-[#7611a6] text-white border-[#c561f6]/40'
+                                : 'bg-white/80 dark:bg-[#0f131d] text-slate-600 dark:text-slate-300 border-slate-200/70 dark:border-white/[0.06]'
+                            }`}
+                          >
+                            {persona.label}
+                          </button>
+                        ))}
+                      </div>
+                      <div className="rounded-xl p-3 bg-white/85 dark:bg-[#0f131d] border border-slate-200/70 dark:border-white/[0.06] space-y-1">
+                        <div className="font-mono text-[10px] text-emerald-600 dark:text-emerald-400">
+                          {RAFTERS_PERSONAS[activeRaftersPersona].tone}
+                        </div>
+                        <p className="text-xs italic text-slate-700 dark:text-slate-300 leading-relaxed">
+                          {RAFTERS_PERSONAS[activeRaftersPersona].sample}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="rounded-2xl p-4 surface-well font-mono text-xs space-y-2 border border-[#c561f6]/30">
+                      <div className="text-[#7611a6] dark:text-[#c561f6] font-semibold">
+                        // ARCHITECTURE X-RAY: RAFTERS
+                      </div>
+                      <div className="text-slate-700 dark:text-slate-300">
+                        <span className="text-slate-400">RUNTIME: </span>
+                        Cloudflare Python Workers (<code className="text-[#c561f6]">python_workers</code>) +
+                        Discord Slash Command Engine + Stripe Billing
+                      </div>
+                      <div className="text-slate-700 dark:text-slate-300">
+                        <span className="text-slate-400">DATA LAYER: </span>
+                        15-year longitudinal ESPN API normalizer + isolated Supabase{' '}
+                        <code className="text-[#c561f6]">rafters</code> schema with encrypted credential vault
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="pt-4 border-t border-slate-200/80 dark:border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap gap-1.5">
+                    {['Python Workers', 'Supabase', 'Discord API', 'Stripe', 'Statistical Modeling'].map(
+                      (tag) => (
+                        <span
+                          key={tag}
+                          className="font-mono text-[11px] px-2.5 py-1 rounded-md surface-well text-slate-700 dark:text-slate-300"
+                        >
+                          {tag}
+                        </span>
+                      )
+                    )}
+                  </div>
+                  <a
+                    href="https://raftersfantasy.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#7611a6] dark:text-[#c561f6] hover:underline"
+                  >
+                    <span>Visit raftersfantasy.com</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </article>
+
+              {/* The Callsheet Card (6 cols) */}
+              <article className="lg:col-span-6 rounded-3xl p-7 sm:p-8 surface-card-interactive flex flex-col justify-between space-y-6">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                      Edge React SPA &amp; Procedural Web Audio
+                    </span>
+                    <span className="font-mono text-xs px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                      callsheet.quest
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="font-display font-bold text-2xl text-[#090b11] dark:text-white">
+                      The Callsheet — Daily Cinema Dispatch &amp; Film Club
+                    </h3>
+                    <p className="text-sm text-slate-600 dark:text-[#a3acc8] mt-1.5 leading-relaxed">
+                      A cinephile daily deduction habit featuring a 7-day rotating puzzle
+                      mechanic, private workplace film leagues, 27 collectible movie prop
+                      badges, and studio lot supervisor Otto the Cat.
+                    </p>
+                  </div>
+
+                  {viewLens === 'executive' ? (
+                    <div className="rounded-2xl p-4 surface-well space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-[#7611a6] dark:text-[#c561f6]">
+                          Interactive 7-Day Reel Mechanic Preview
+                        </span>
+                        <Film className="w-3.5 h-3.5 text-amber-400" />
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {CALLSHEET_DAYS.map((d, idx) => (
+                          <button
+                            key={d.day}
+                            onClick={() => setActiveCallsheetDay(idx)}
+                            className={`px-2.5 py-1 rounded-lg font-mono text-[11px] transition-all cursor-pointer border ${
+                              activeCallsheetDay === idx
+                                ? 'bg-[#7611a6] text-white border-[#c561f6]/40'
+                                : 'bg-white/80 dark:bg-[#0f131d] text-slate-600 dark:text-slate-300 border-slate-200/70 dark:border-white/[0.06]'
+                            }`}
+                          >
+                            {d.day}
+                          </button>
+                        ))}
+                      </div>
+                      <div className="rounded-xl p-3 bg-white/85 dark:bg-[#0f131d] border border-slate-200/70 dark:border-white/[0.06] space-y-1">
+                        <div className="font-mono text-[10px] text-amber-600 dark:text-amber-400">
+                          {CALLSHEET_DAYS[activeCallsheetDay].mechanic}
+                        </div>
+                        <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                          {CALLSHEET_DAYS[activeCallsheetDay].clue}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="rounded-2xl p-4 surface-well font-mono text-xs space-y-2 border border-[#c561f6]/30">
+                      <div className="text-[#7611a6] dark:text-[#c561f6] font-semibold">
+                        // ARCHITECTURE X-RAY: THE CALLSHEET
+                      </div>
+                      <div className="text-slate-700 dark:text-slate-300">
+                        <span className="text-slate-400">TOPOLOGY: </span>
+                        React 18 + Vite SPA on Cloudflare Workers → Isolated{' '}
+                        <code className="text-[#c561f6]">callsheet</code> Supabase Postgres Schema
+                      </div>
+                      <div className="text-slate-700 dark:text-slate-300">
+                        <span className="text-slate-400">STATE &amp; AUDIO: </span>
+                        Zero-friction guest UUID to OAuth account migration + procedural Web
+                        Audio synthesizer soundtracks
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="pt-4 border-t border-slate-200/80 dark:border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap gap-1.5">
+                    {['React 18', 'TypeScript', 'Supabase RLS', 'Web Audio API', 'Cloudflare'].map(
+                      (tag) => (
+                        <span
+                          key={tag}
+                          className="font-mono text-[11px] px-2.5 py-1 rounded-md surface-well text-slate-700 dark:text-slate-300"
+                        >
+                          {tag}
+                        </span>
+                      )
+                    )}
+                  </div>
+                  <a
+                    href="https://callsheet.quest"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#7611a6] dark:text-[#c561f6] hover:underline"
+                  >
+                    <span>Play at callsheet.quest</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </article>
+            </div>
+          </div>
         </section>
 
-        {/* STAGE 4: INTERACTIVE EXECUTIVE CONTACT CONSOLE */}
+        {/* STAGE 5: INTERACTIVE EXECUTIVE CONTACT CONSOLE */}
         <section id="contact" className="scroll-mt-24">
           <aside className="relative overflow-hidden rounded-3xl p-8 sm:p-11 surface-card border border-purple-500/25">
             <div
@@ -1724,8 +2009,8 @@ export default function App() {
                   Interested in connecting?
                 </h2>
                 <p className="text-slate-600 dark:text-[#a3acc8] text-sm sm:text-base leading-relaxed max-w-xl">
-                  Select a conversation topic below to pre-fill a direct note, or copy my
-                  email address in one click.
+                  Select a conversation topic below to pre-fill a direct note, connect on
+                  LinkedIn, or copy my email address in one click.
                 </p>
 
                 {/* Selectable Topic Pills */}
@@ -1808,6 +2093,15 @@ export default function App() {
             >
               <GitBranch className="w-3.5 h-3.5" />
               <span>Shipwright</span>
+            </a>
+            <a
+              href="https://www.linkedin.com/search/results/all/?keywords=Steven%20Fowler%20October%20Three"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#7611a6] dark:hover:text-[#c561f6] transition-colors inline-flex items-center gap-1.5"
+            >
+              <Linkedin className="w-4 h-4" />
+              <span>LinkedIn</span>
             </a>
             <a
               href="https://github.com/stevenfowler16"
