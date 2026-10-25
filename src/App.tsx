@@ -641,7 +641,7 @@ export default function App() {
             </button>
 
             <a
-              href="https://www.linkedin.com/search/results/all/?keywords=Steven%20Fowler%20October%20Three"
+              href="https://www.linkedin.com/in/steven-fowler/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"
@@ -739,7 +739,7 @@ export default function App() {
             <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <a
-                  href="https://www.linkedin.com/search/results/all/?keywords=Steven%20Fowler%20October%20Three"
+                  href="https://www.linkedin.com/in/steven-fowler/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 dark:text-slate-300"
@@ -1209,7 +1209,7 @@ export default function App() {
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
                 <a
-                  href="https://www.linkedin.com/search/results/all/?keywords=Steven%20Fowler%20October%20Three"
+                  href="https://www.linkedin.com/in/steven-fowler/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7611a6] dark:text-[#c561f6] hover:underline"
@@ -2095,7 +2095,7 @@ export default function App() {
               <span>Shipwright</span>
             </a>
             <a
-              href="https://www.linkedin.com/search/results/all/?keywords=Steven%20Fowler%20October%20Three"
+              href="https://www.linkedin.com/in/steven-fowler/"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-[#7611a6] dark:hover:text-[#c561f6] transition-colors inline-flex items-center gap-1.5"
