@@ -9,7 +9,6 @@ import {
   ChevronDown,
   ChevronUp,
   Code2,
-  Compass,
   Copy,
   Cpu,
   ExternalLink,
