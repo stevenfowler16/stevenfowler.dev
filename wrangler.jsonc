@@ -20,6 +20,10 @@
     {
       "pattern": "www.stevenfowler.dev/*",
       "zone_name": "stevenfowler.dev"
+    },
+    {
+      "pattern": "blog.stevenfowler.dev/*",
+      "zone_name": "stevenfowler.dev"
     }
   ]
 }
